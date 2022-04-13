@@ -4,8 +4,8 @@ LCE: Local Cascade Ensemble
 
 |CircleCI| |ReadTheDocs|
 
-.. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
-   :target: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
+.. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCEnsemble/tree/main.svg?style=shield
+   :target: https://circleci.com/gh/LocalCascadeEnsemble/LCEnsemble/tree/main
    
 .. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
    :target: https://lce.readthedocs.io/en/latest/?badge=latest

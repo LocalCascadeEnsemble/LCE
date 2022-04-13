@@ -11,7 +11,7 @@ ver_file = os.path.join('lce', '_version.py')
 with open(ver_file) as f:
     exec(f.read())
 
-DISTNAME = 'LCE'
+DISTNAME = 'LCEnsemble'
 DESCRIPTION = 'LCE package.'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
