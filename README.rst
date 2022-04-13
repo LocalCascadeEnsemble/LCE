@@ -1,10 +1,11 @@
-.. -*- mode: rst -*-
 
-   |CircleCI|
+
+|CircleCI|
 
 .. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
    :target: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
-				 
+   
+
 
 ===========================
 LCE: Local Cascade Ensemble
