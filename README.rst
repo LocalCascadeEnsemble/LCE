@@ -1,16 +1,10 @@
 .. -*- mode: rst -*-
 
-   |CircleCI|_ 
+   |CircleCI|
 
 .. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
-.. _CircleCI: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
-
-.. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
-.. _ReadTheDocs: https://lce.readthedocs.io/en/latest/?badge=latest
-
-.. |PyPI| image:: https://img.shields.io/pypi/v/lce.svg
-.. _PyPI: https://pypi.python.org/pypi/lce/
-	
+   :target: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
+				 
 
 ===========================
 LCE: Local Cascade Ensemble
