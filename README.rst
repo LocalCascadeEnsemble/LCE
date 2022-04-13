@@ -2,8 +2,8 @@
 
    |CircleCI|_ 
 
-.. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE.svg?style=shield
-.. _CircleCI: https://circleci.com/gh/LocalCascadeEnsemble/LCE
+.. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
+.. _CircleCI: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
 
 .. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
 .. _ReadTheDocs: https://lce.readthedocs.io/en/latest/?badge=latest
