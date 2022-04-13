@@ -1,6 +1,7 @@
 name: LCE
 dependencies:
   - hyperopt
+  - matplotlib
   - numpy
   - scikit-learn
   - xgboost
