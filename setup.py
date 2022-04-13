@@ -10,7 +10,7 @@ ver_file = os.path.join('lce', '_version.py')
 with open(ver_file) as f:
     exec(f.read())
 
-DISTNAME = 'Local Cascade Ensemble'
+DISTNAME = 'lce'
 DESCRIPTION = 'LCE package'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
@@ -47,6 +47,7 @@ EXTRAS_REQUIRE = {
 }
 
 setup(name=DISTNAME,
+      python_requires='>=3.6',
       maintainer=MAINTAINER,
       maintainer_email=MAINTAINER_EMAIL,
       description=DESCRIPTION,
