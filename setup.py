@@ -14,6 +14,7 @@ DISTNAME = 'Local Cascade Ensemble'
 DESCRIPTION = 'LCE package'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
+LONG_DESCRIPTION_TYPE = 'text/x-rst'
 MAINTAINER = 'Kevin Fauvel'
 MAINTAINER_EMAIL = 'kfauvel.lce@gmail.com'
 URL = 'https://lce.readthedocs.io/en/latest/'
@@ -27,14 +28,10 @@ PROJECT_URLS = {
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',
-               'Programming Language :: Python',
                'Programming Language :: Python :: 3'
                'Topic :: Software Development',
                'Topic :: Scientific/Engineering',
-               'Operating System :: Microsoft :: Windows',
-               'Operating System :: POSIX',
-               'Operating System :: Unix',
-               'Operating System :: MacOS'
+               'Operating System :: OS Independent'
                ]
 EXTRAS_REQUIRE = {
     'tests': [
@@ -45,7 +42,6 @@ EXTRAS_REQUIRE = {
         'sphinx-gallery',
         'sphinx_rtd_theme',
         'numpydoc',
-        'matplotlib',
         'pillow'
     ]
 }
@@ -60,7 +56,8 @@ setup(name=DISTNAME,
       download_url=DOWNLOAD_URL,
       project_urls=PROJECT_URLS,
       long_description=LONG_DESCRIPTION,
-      zip_safe=False,  # the package can run out of an .egg file
+      long_description_content_type=LONG_DESCRIPTION_TYPE,
+      zip_safe=False,
       classifiers=CLASSIFIERS,
       packages=find_packages(),
       install_requires=INSTALL_REQUIRES,
