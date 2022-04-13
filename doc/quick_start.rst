@@ -8,9 +8,7 @@ This is a quick start tutorial showing snippets for you to try out LCE.
 Installation
 ============
 
-You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with the following command
-
-.. code-block::
+You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with the following command::
 
 	pip install lcensemble
 	
@@ -18,9 +16,7 @@ You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with the
 First Example on Iris Dataset
 =============================
 
-LCEClassifier prediction on an Iris test set.
-
-.. code-block::
+LCEClassifier prediction on an Iris test set::
 
 	from lce import LCEClassifier
 	from sklearn.datasets import load_iris
