@@ -1,14 +1,26 @@
 LCE: Local Cascade Ensemble
 ===========================
 
-|CircleCI|_ |ReadTheDocs|_
+|CircleCI|_ |ReadTheDocs|_ |PyPIversion|_ |PyPIpythonversion|_ |License|_ |DOI|_
 
 .. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
 .. _CircleCI: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
    
 .. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
 .. _ReadTheDocs: https://lce.readthedocs.io/en/latest/?badge=latest
-   
+
+.. |PyPIversion| image:: https://badge.fury.io/py/lcensemble.svg
+.. _PyPIversion: https://pypi.python.org/pypi/lcensemble/
+
+.. |PyPIpythonversion| image:: https://img.shields.io/pypi/pyversions/lcensemble.svg
+.. _PyPIpythonversion: https://pypi.python.org/pypi/lcensemble/
+
+.. |License| image:: https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg
+.. _License: https://pypi.python.org/pypi/lcensemble/
+
+.. |DOI| image:: https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg
+.. _DOI: https://doi.org/10.1007/s10618-022-00823-6
+
 
 **Local Cascade Ensemble (LCE)** proposes to **further enhance** the prediction performance of the state-of-the-art 
 **Random Forest** and **XGBoost** by combining their strengths and adopting a complementary implicit diversification way. 
@@ -26,9 +38,9 @@ Getting Started
 Installation
 ------------
 
-You can install LCE from PyPI with the following command::
+You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with the following command::
 
-	pip install lce
+	pip install lcensemble
 	
 
 First Example on Iris Dataset
@@ -47,7 +59,7 @@ LCEClassifier prediction on an Iris test set::
 	X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, random_state=0)
 
 	# Train LCEClassifier with default parameters
-	clf = LCEClassifier(random_state=0)
+	clf = LCEClassifier(n_jobs=-1, random_state=0)
 	clf.fit(X_train, y_train)
 
 	# Make prediction and generate classification report

@@ -17,7 +17,7 @@ data = load_iris()
 X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, random_state=0)
 
 # Train LCEClassifier with default parameters
-clf = LCEClassifier(random_state=0)
+clf = LCEClassifier(n_jobs=-1, random_state=0)
 clf.fit(X_train, y_train)
 
 # Make prediction and generate classification report

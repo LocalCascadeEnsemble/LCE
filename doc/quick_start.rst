@@ -8,11 +8,11 @@ This is a quick start tutorial showing snippets for you to try out LCE.
 Installation
 ============
 
-You can install LCE from PyPI with the following command
+You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with the following command
 
 .. code-block::
 
-	pip install lce
+	pip install lcensemble
 	
 
 First Example on Iris Dataset
@@ -33,7 +33,7 @@ LCEClassifier prediction on an Iris test set.
 	X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, random_state=0)
 
 	# Train LCEClassifier with default parameters
-	clf = LCEClassifier(random_state=0)
+	clf = LCEClassifier(n_jobs=-1, random_state=0)
 	clf.fit(X_train, y_train)
 
 	# Make prediction and generate classification report

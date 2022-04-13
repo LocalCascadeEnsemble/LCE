@@ -239,7 +239,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
     >>> from sklearn.model_selection import cross_val_score
     >>> from lce import LCEClassifier
     >>> iris = load_iris()
-    >>> clf = LCEClassifier(random_state=123)
+    >>> clf = LCEClassifier(n_jobs=-1, random_state=123)
     >>> cross_val_score(clf, iris.data, iris.target, cv=3)
     array([0.98, 0.94, 0.98])
     """

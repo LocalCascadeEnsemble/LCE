@@ -10,8 +10,8 @@ ver_file = os.path.join('lce', '_version.py')
 with open(ver_file) as f:
     exec(f.read())
 
-DISTNAME = 'lce'
-DESCRIPTION = 'LCE package'
+DISTNAME = 'lcensemble'
+DESCRIPTION = 'Local Cascade Ensemble package'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
 LONG_DESCRIPTION_TYPE = 'text/x-rst'
@@ -28,7 +28,7 @@ PROJECT_URLS = {
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',
-               'Programming Language :: Python :: 3'
+               'Programming Language :: Python :: 3',
                'Topic :: Software Development',
                'Topic :: Scientific/Engineering',
                'Operating System :: OS Independent'
