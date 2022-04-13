@@ -1,3 +1,6 @@
+===========================
+LCE: Local Cascade Ensemble
+===========================
 
 |CircleCI| |ReadTheDocs|
 
@@ -7,10 +10,6 @@
 .. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
    :target: https://lce.readthedocs.io/en/latest/?badge=latest
    
-
-===========================
-LCE: Local Cascade Ensemble
-===========================
 
 **Local Cascade Ensemble (LCE)** proposes to **further enhance** the prediction performance of 
 the state-of-the-art **Random Forest** and **XGBoost** by combining their strengths and adopting a complementary diversification way. 
