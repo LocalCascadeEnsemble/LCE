@@ -1,4 +1,5 @@
 hyperopt
+matplotlib
 numpy
 scikit-learn
 xgboost
