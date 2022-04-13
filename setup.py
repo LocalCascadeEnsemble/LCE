@@ -1,5 +1,4 @@
 #! /usr/bin/env python
-"""A template for scikit-learn compatible packages."""
 
 import codecs
 import os
@@ -11,28 +10,31 @@ ver_file = os.path.join('lce', '_version.py')
 with open(ver_file) as f:
     exec(f.read())
 
-DISTNAME = 'LCEnsemble'
-DESCRIPTION = 'LCE package.'
+DISTNAME = 'Local Cascade Ensemble'
+DESCRIPTION = 'LCE package'
 with codecs.open('README.rst', encoding='utf-8-sig') as f:
     LONG_DESCRIPTION = f.read()
-MAINTAINER = 'K. Fauvel'
+MAINTAINER = 'Kevin Fauvel'
 MAINTAINER_EMAIL = 'kfauvel.lce@gmail.com'
-URL = 'https://github.com/LocalCascadeEnsemble/LCEnsemble'
+URL = 'https://lce.readthedocs.io/en/latest/'
 LICENSE = 'new BSD'
-DOWNLOAD_URL = 'https://github.com/LocalCascadeEnsemble/LCEnsemble'
+DOWNLOAD_URL = 'https://github.com/LocalCascadeEnsemble/LCE'
 VERSION = __version__
-INSTALL_REQUIRES = ['hyperopt', 'numpy', 'scikit-learn', 'xgboost']
+INSTALL_REQUIRES = ['hyperopt', 'matplotlib', 'numpy', 'scikit-learn', 'xgboost']
+PROJECT_URLS = {
+    "Documentation": "https://lce.readthedocs.io/en/latest/",
+}
 CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',
                'Programming Language :: Python',
+               'Programming Language :: Python :: 3'
                'Topic :: Software Development',
                'Topic :: Scientific/Engineering',
                'Operating System :: Microsoft :: Windows',
                'Operating System :: POSIX',
                'Operating System :: Unix',
-               'Operating System :: MacOS',
-               'Programming Language :: Python :: 3.6'
+               'Operating System :: MacOS'
                ]
 EXTRAS_REQUIRE = {
     'tests': [
@@ -56,6 +58,7 @@ setup(name=DISTNAME,
       url=URL,
       version=VERSION,
       download_url=DOWNLOAD_URL,
+      project_urls=PROJECT_URLS,
       long_description=LONG_DESCRIPTION,
       zip_safe=False,  # the package can run out of an .egg file
       classifiers=CLASSIFIERS,
