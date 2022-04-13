@@ -1,11 +1,12 @@
 
-
-|CircleCI|
+|CircleCI| |ReadTheDocs|
 
 .. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
    :target: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
    
-
+.. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
+   :target: https://lce.readthedocs.io/en/latest/?badge=latest
+   
 
 ===========================
 LCE: Local Cascade Ensemble
@@ -63,7 +64,7 @@ LCEClassifier prediction on an Iris test set.
 
 Documentation
 =============
-LCE documentation can be found here.
+LCE documentation can be found `here <https://lce.readthedocs.io/en/latest/>`_.
 
 
 Reference
