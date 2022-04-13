@@ -23,7 +23,7 @@ LCE: Local Cascade Ensemble
 
 
 **Local Cascade Ensemble (LCE)** proposes to **further enhance** the prediction performance of the state-of-the-art 
-**Random Forest** and **XGBoost** by combining their strengths and adopting a complementary implicit diversification way. 
+**Random Forest** and **XGBoost** by combining their strengths and adopting a complementary implicit diversification. 
 LCE is a hybrid ensemble method that combines an explicit boosting-bagging approach to handle the bias-variance trade-off faced by 
 machine learning models and an implicit divide-and-conquer approach to individualize classifier errors on different parts of the training data.
 LCE has been evaluated on a public benchmark and published in the journal *Data Mining and Knowledge Discovery*.
