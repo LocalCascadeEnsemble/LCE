@@ -1,0 +1,6 @@
+name: LCE
+dependencies:
+  - hyperopt
+  - numpy
+  - scikit-learn
+  - xgboost
