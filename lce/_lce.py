@@ -238,13 +238,13 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
 
     Examples
     --------
+    >>> from lce import LCEClassifier
     >>> from sklearn.datasets import load_iris
     >>> from sklearn.model_selection import cross_val_score
-    >>> from lce import LCEClassifier
     >>> iris = load_iris()
     >>> clf = LCEClassifier(n_jobs=-1, random_state=123)
     >>> cross_val_score(clf, iris.data, iris.target, cv=3)
-    array([0.98, 0.94, 0.98])
+    array([0.98, 0.94, 0.96])
     """
 
     def __init__(self, n_estimators=10, bootstrap=True, criterion='gini', splitter='best', 
