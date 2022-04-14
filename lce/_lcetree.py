@@ -11,7 +11,10 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
     
 
     Parameters
-    ----------    
+    ----------  
+    n_classes_in : int, default=None
+        The number of classes from the input data.
+    
     criterion : {"gini", "entropy"}, default="gini"
         The function to measure the quality of a split. Supported criteria are
         "gini" for the Gini impurity and "entropy" for the information gain.
@@ -182,7 +185,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         The number of features when ``fit`` is performed.
     """
 
-    def __init__(self, criterion='gini', splitter='best', max_depth=2, 
+    def __init__(self, n_classes_in=None, criterion='gini', splitter='best', max_depth=2, 
                  max_features=None, min_samples_leaf=5, n_iter=10, 
                  xgb_max_n_estimators=100, xgb_n_estimators_step=10, xgb_max_depth=10,
                  xgb_min_learning_rate=0.05, xgb_max_learning_rate=0.5, xgb_learning_rate_step=0.05, 
@@ -193,6 +196,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                  xgb_min_reg_alpha=0.01, xgb_max_reg_alpha=0.1, xgb_reg_alpha_step=0.05, 
                  xgb_min_reg_lambda=0.01, xgb_max_reg_lambda=0.1, xgb_reg_lambda_step=0.05,
                  random_state=None, verbose=0):
+        self.n_classes_in = n_classes_in
         self.criterion = criterion
         self.splitter = splitter
         self.max_depth = max_depth
@@ -242,7 +246,6 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         -------
         self : object
         """
-        self.n_classes_ = np.unique(y).size
         self.classes_ = np.unique(y)
         self.n_features_in_ = X.shape[1]        
         
@@ -254,37 +257,41 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                 """Create a node in the tree."""
                 # Add XGBoost predictions as features to the dataset
                 model_node = xgb_opt_classifier(X, y, n_iter=self.n_iter,
-                                                    n_estimators=self.xgb_max_n_estimators,
-                                                    n_estimators_step = self.xgb_n_estimators_step,
-                                                    max_depth=self.xgb_max_depth,
-                                                    min_learning_rate = self.xgb_min_learning_rate,
-                                                    max_learning_rate = self.xgb_max_learning_rate,
-                                                    learning_rate_step = self.xgb_learning_rate_step,
-                                                    booster = self.xgb_booster,
-                                                    min_gamma = self.xgb_min_gamma,
-                                                    max_gamma = self.xgb_max_gamma,
-                                                    gamma_step = self.xgb_gamma_step,
-                                                    min_min_child_weight = self.xgb_min_min_child_weight,
-                                                    max_min_child_weight = self.xgb_max_min_child_weight,
-                                                    min_child_weight_step = self.xgb_min_child_weight_step,
-                                                    subsample=self.xgb_subsample, 
-                                                    colsample_bytree = self.xgb_colsample_bytree,
-                                                    colsample_bylevel = self.xgb_colsample_bylevel,
-                                                    colsample_bynode = self.xgb_colsample_bynode,
-                                                    min_reg_alpha = self.xgb_min_reg_alpha,
-                                                    max_reg_alpha = self.xgb_max_reg_alpha,
-                                                    reg_alpha_step = self.xgb_reg_alpha_step,
-                                                    min_reg_lambda  = self.xgb_min_reg_lambda,
-                                                    max_reg_lambda  = self.xgb_max_reg_lambda,
-                                                    reg_lambda_step = self.xgb_reg_lambda_step,
-                                                    random_state=self.random_state)
+                                                n_estimators=self.xgb_max_n_estimators,
+                                                n_estimators_step = self.xgb_n_estimators_step,
+                                                max_depth=self.xgb_max_depth,
+                                                min_learning_rate = self.xgb_min_learning_rate,
+                                                max_learning_rate = self.xgb_max_learning_rate,
+                                                learning_rate_step = self.xgb_learning_rate_step,
+                                                booster = self.xgb_booster,
+                                                min_gamma = self.xgb_min_gamma,
+                                                max_gamma = self.xgb_max_gamma,
+                                                gamma_step = self.xgb_gamma_step,
+                                                min_min_child_weight = self.xgb_min_min_child_weight,
+                                                max_min_child_weight = self.xgb_max_min_child_weight,
+                                                min_child_weight_step = self.xgb_min_child_weight_step,
+                                                subsample=self.xgb_subsample, 
+                                                colsample_bytree = self.xgb_colsample_bytree,
+                                                colsample_bylevel = self.xgb_colsample_bylevel,
+                                                colsample_bynode = self.xgb_colsample_bynode,
+                                                min_reg_alpha = self.xgb_min_reg_alpha,
+                                                max_reg_alpha = self.xgb_max_reg_alpha,
+                                                reg_alpha_step = self.xgb_reg_alpha_step,
+                                                min_reg_lambda  = self.xgb_min_reg_lambda,
+                                                max_reg_lambda  = self.xgb_max_reg_lambda,
+                                                reg_lambda_step = self.xgb_reg_lambda_step,
+                                                random_state=self.random_state)
                 pred_proba = np.around(model_node.predict_proba(X), 6)
+
                 c = 0
-                for i in range(0, self.n_classes_):
+                for i in range(0, self.n_classes_in):
                     X = np.insert(X, X.shape[1], 0, axis=1)
-                    if i in y:  
-                        X[:,-1] = pred_proba[:,c]
-                        c = c + 1
+                    if i in y:
+                        if np.unique(y).size == 1:
+                            X[:,-1] = pred_proba[:,1]
+                        else:
+                            X[:,-1] = pred_proba[:,c]
+                            c += 1
                 
                 # Missing data information
                 num_nans = np.isnan(X).any(axis=1).sum()
@@ -317,8 +324,8 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                 node = {"index": container["index_node_global"],
                         "model": model_node,
                         "data": (X, y),
-                        "classes": np.unique(y),
-                        "num_classes": self.n_classes_,
+                        "classes_in": np.unique(y),
+                        "num_classes": self.n_classes_in,
                         "split": split, 
                         "missing": {"missing": missing, "missing_only": missing_only},
                         "missing_side": None,
@@ -459,15 +466,18 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                           node["children"]["right"] is None
             if no_children:
                 y_pred_x = node["model"].predict(x.reshape(-1, 1).T)[0]
-                return node["classes"][y_pred_x]
+                return node["classes_in"][y_pred_x]
             else:
                 pred_proba = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
                 c = 0
                 for i in range(0, node["num_classes"]):
                     x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if i in node["classes"]:  
-                        x[:,-1] = pred_proba[:,c]
-                        c = c + 1
+                    if i in node["classes_in"]:
+                        if node["classes_in"].size == 1:
+                            x[:,-1] = pred_proba[:,1]
+                        else:
+                            x[:,-1] = pred_proba[:,c]
+                            c += 1
                 if np.isnan(x).sum() > 0:
                     if node["missing_side"] == 'left':
                         x_left, x_right = x.reshape(-1, 1).T, []
@@ -496,8 +506,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         Returns
         -------
         y : ndarray of shape (n_samples,)
-            The class probabilities of the input samples. The order of the 
-            classes corresponds to that in the attribute classes_.
+            The class probabilities of the input samples. 
         """
         
         def _predict_proba(node, x):
@@ -508,18 +517,24 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                 d = 0
                 for j in range(0, node["num_classes"]):
                     x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if j in node["classes"]:  
-                        x[:,-1] = y_pred_x[:, d]
-                        d = d + 1
+                    if j in node["classes_in"]: 
+                        if node["classes_in"].size == 1:
+                            x[:,-1] = y_pred_x[:,1]
+                        else:
+                            x[:,-1] = y_pred_x[:,d]
+                            d += 1
                 return x[:, -node["num_classes"]:][0]
             else:
                 pred_proba = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
                 c = 0
                 for i in range(0, node["num_classes"]):
                     x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if i in node["classes"]:  
-                        x[:,-1] = pred_proba[:,c]
-                        c = c + 1
+                    if i in node["classes_in"]:
+                        if node["classes_in"].size == 1:
+                            x[:,-1] = pred_proba[:,1]
+                        else:
+                            x[:,-1] = pred_proba[:,c]
+                            c += 1
                 if np.isnan(x).sum() > 0:
                     if node["missing_side"] == 'left':
                         x_left, x_right = x.reshape(-1, 1).T, []

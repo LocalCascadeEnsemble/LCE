@@ -207,6 +207,9 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
 
     classes_ : ndarray of shape (n_classes,) or a list of such arrays
         The classes labels.
+        
+    n_classes_ : int
+        The number of classes.
 
     n_features_in_ : int
         The number of features when ``fit`` is performed.
@@ -294,6 +297,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
     def _generate_estimator(self):
         """Generate an estimator."""
         est = LCETreeClassifier()
+        est.n_classes_in = self.n_classes_
         est.criterion = self.criterion
         est.splitter = self.splitter
         est.max_depth = self.max_depth
@@ -399,6 +403,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
         self.X_ = True
         self.y_ = True
         self.classes_, y = np.unique(y, return_inverse=True)
+        self.n_classes_ = np.unique(y).size
         self.encoder_ = LabelEncoder()
         self.encoder_.fit(self.classes_)
         self.base_estimator_ = self._generate_estimator()

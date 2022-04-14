@@ -21,7 +21,7 @@ URL = 'https://lce.readthedocs.io/en/latest/'
 LICENSE = 'new BSD'
 DOWNLOAD_URL = 'https://github.com/LocalCascadeEnsemble/LCE'
 VERSION = __version__
-INSTALL_REQUIRES = ['hyperopt', 'matplotlib', 'numpy', 'scikit-learn', 'xgboost']
+INSTALL_REQUIRES = ['hyperopt>=0.2.7', 'matplotlib', 'numpy>=1.19.2', 'scikit-learn', 'xgboost']
 PROJECT_URLS = {
     "Documentation": "https://lce.readthedocs.io/en/latest/",
 }

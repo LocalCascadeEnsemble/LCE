@@ -163,7 +163,7 @@ def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
         'colsample_bynode': hp.choice('colsample_bynode', colsample_bynode),
         'reg_alpha':hp.choice('reg_alpha',reg_alpha),
         'reg_lambda':hp.choice('reg_lambda',reg_lambda),
-        'objective':'multi:softmax',
+        'objective':'multi:softprob',
         'num_class':n_classes,
         'n_jobs':-1,
         'random_state':random_state,
@@ -188,7 +188,7 @@ def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
         best_print=best
         return {'loss': -best, 'status': STATUS_OK}
     
-    rstate = np.random.RandomState(random_state) 
+    rstate = np.random.default_rng(random_state)
     best = fmin(
         fn=f,
         space=space,
@@ -213,7 +213,7 @@ def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
         'colsample_bynode':colsample_bynode[best['colsample_bynode']],
         'reg_alpha':reg_alpha[best['reg_alpha']],
         'reg_lambda':reg_lambda[best['reg_lambda']],
-        'objective':'multi:softmax',
+        'objective':'multi:softprob',
         'num_class':n_classes,
         'n_jobs':-1,
         'random_state':random_state,

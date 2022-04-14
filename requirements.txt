@@ -1,5 +1,5 @@
-hyperopt
+hyperopt>=0.2.7
 matplotlib
-numpy
+numpy>=1.19.2
 scikit-learn
 xgboost
