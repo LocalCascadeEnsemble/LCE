@@ -11,3 +11,4 @@ This is the API documentation of LCE.
    :template: class.rst
 
     LCEClassifier
+	LCERegressor

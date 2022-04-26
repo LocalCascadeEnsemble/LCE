@@ -21,7 +21,7 @@ URL = 'https://lce.readthedocs.io/en/latest/'
 LICENSE = 'new BSD'
 DOWNLOAD_URL = 'https://github.com/LocalCascadeEnsemble/LCE'
 VERSION = __version__
-INSTALL_REQUIRES = ['hyperopt>=0.2.7', 'matplotlib', 'numpy>=1.19.2', 'scikit-learn', 'xgboost']
+INSTALL_REQUIRES = ['hyperopt>=0.2.7', 'matplotlib', 'numpy>=1.19.2', 'scikit-learn>=1.0.0', 'xgboost==1.5.0']
 PROJECT_URLS = {
     "Documentation": "https://lce.readthedocs.io/en/latest/",
 }
@@ -29,10 +29,10 @@ CLASSIFIERS = ['Intended Audience :: Science/Research',
                'Intended Audience :: Developers',
                'License :: OSI Approved',
                'Programming Language :: Python :: 3',
-               'Programming Language :: Python :: 3.6',
                'Programming Language :: Python :: 3.7',
                'Programming Language :: Python :: 3.8',
                'Programming Language :: Python :: 3.9',
+               'Programming Language :: Python :: 3.10',
                'Topic :: Software Development',
                'Topic :: Scientific/Engineering',
                'Operating System :: OS Independent'
@@ -51,7 +51,7 @@ EXTRAS_REQUIRE = {
 }
 
 setup(name=DISTNAME,
-      python_requires='>=3.6',
+      python_requires='>=3.7',
       maintainer=MAINTAINER,
       maintainer_email=MAINTAINER_EMAIL,
       description=DESCRIPTION,

@@ -1,5 +1,5 @@
 hyperopt>=0.2.7
 matplotlib
 numpy>=1.19.2
-scikit-learn
-xgboost
+scikit-learn>=1.0.0
+xgboost==1.5.0
