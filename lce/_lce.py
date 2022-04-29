@@ -556,7 +556,7 @@ class LCERegressor(RegressorMixin, BaseEstimator):
 
     n_iter: int, default=10
         Number of iterations to set the hyperparameters of the base classifier 
-        in Hyperopt. Hyperopt maximizes the accuracy score.
+        in Hyperopt. Hyperopt minimizes the mean squared error.
         
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
