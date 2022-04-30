@@ -60,7 +60,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         
     metric: string, default="accuracy"
         The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
-        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`_.
         
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
@@ -640,7 +640,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
         
     metric: string, default="neg_mean_squared_error"
         The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 
-        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`_.
         
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 

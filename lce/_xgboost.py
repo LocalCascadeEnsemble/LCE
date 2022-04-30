@@ -30,7 +30,7 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
     
     metric: string, default="accuracy"
         The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
-        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`_.
         
     n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
@@ -253,7 +253,7 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
         
     metric: string, default="neg_mean_squared_error"
         The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 
-        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`_.
         
     n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
