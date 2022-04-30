@@ -304,6 +304,7 @@ intersphinx_mapping = {
         sys.version_info), None),
     'numpy': ('https://docs.scipy.org/doc/numpy/', None),
     'matplotlib': ('https://matplotlib.org/', None),
+    'pandas': ('https://pandas.pydata.org/', None),
     'sklearn': ('http://scikit-learn.org/stable', None)
 }
 
