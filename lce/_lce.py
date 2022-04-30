@@ -73,8 +73,12 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier 
-        in Hyperopt. Hyperopt maximizes the accuracy score.
+        Number of iterations to set the hyperparameters of the base classifier (XGBoost)
+        in Hyperopt. 
+        
+    metric: string, default="accuracy"
+        The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
         
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
@@ -248,12 +252,13 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
     """
 
     def __init__(self, n_estimators=10, bootstrap=True, criterion='gini', splitter='best', 
-                 max_depth=2, max_features=None, max_samples=1.0, 
-                 min_samples_leaf=5, n_iter=10, xgb_max_n_estimators=100, xgb_n_estimators_step=10, 
-                 xgb_max_depth=10, xgb_min_learning_rate=0.05, xgb_max_learning_rate=0.5, xgb_learning_rate_step=0.05, 
-                 xgb_booster='gbtree', xgb_min_gamma=0.05, xgb_max_gamma=0.5, xgb_gamma_step=0.05,
-                 xgb_min_min_child_weight=3, xgb_max_min_child_weight=10, xgb_min_child_weight_step=1,
-                 xgb_subsample=0.8, xgb_colsample_bytree=0.8, xgb_colsample_bylevel=1.0, xgb_colsample_bynode=1.0,
+                 max_depth=2, max_features=None, max_samples=1.0, min_samples_leaf=5, 
+                 n_iter=10, metric='accuracy', xgb_max_n_estimators=100, xgb_n_estimators_step=10, 
+                 xgb_max_depth=10, xgb_min_learning_rate=0.05, xgb_max_learning_rate=0.5, 
+                 xgb_learning_rate_step=0.05, xgb_booster='gbtree', xgb_min_gamma=0.05, 
+                 xgb_max_gamma=0.5, xgb_gamma_step=0.05, xgb_min_min_child_weight=3, 
+                 xgb_max_min_child_weight=10, xgb_min_child_weight_step=1, xgb_subsample=0.8, 
+                 xgb_colsample_bytree=0.8, xgb_colsample_bylevel=1.0, xgb_colsample_bynode=1.0,
                  xgb_min_reg_alpha=0.01, xgb_max_reg_alpha=0.1, xgb_reg_alpha_step=0.05, 
                  xgb_min_reg_lambda=0.01, xgb_max_reg_lambda=0.1, xgb_reg_lambda_step=0.05, 
                  n_jobs=None, random_state=None, verbose=0):
@@ -266,6 +271,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
         self.max_samples = max_samples
         self.min_samples_leaf = min_samples_leaf
         self.n_iter = n_iter
+        self.metric = metric
         self.xgb_max_n_estimators = xgb_max_n_estimators
         self.xgb_n_estimators_step = xgb_n_estimators_step
         self.xgb_max_depth = xgb_max_depth
@@ -304,6 +310,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
         est.max_features = self.max_features
         est.min_samples_leaf = self.min_samples_leaf
         est.n_iter = self.n_iter
+        est.metric = self.metric
         est.xgb_max_n_estimators = self.xgb_max_n_estimators
         est.xgb_n_estimators_step = self.xgb_n_estimators_step
         est.xgb_max_depth = self.xgb_max_depth
@@ -327,6 +334,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
         est.xgb_min_reg_lambda = self.xgb_min_reg_lambda
         est.xgb_max_reg_lambda = self.xgb_max_reg_lambda
         est.xgb_reg_lambda_step = self.xgb_reg_lambda_step
+        est.n_jobs = self.n_jobs
         est.random_state = self.random_state
         est.verbose = self.verbose
         return est
@@ -555,9 +563,13 @@ class LCERegressor(RegressorMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier 
-        in Hyperopt. Hyperopt minimizes the mean squared error.
+        Number of iterations to set the hyperparameters of the base regressor (XGBoost) 
+        in Hyperopt.
         
+    metric: string, default="neg_mean_squared_error"
+        The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
+
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
         XGBoost corresponds to the number of boosting rounds.
@@ -717,12 +729,13 @@ class LCERegressor(RegressorMixin, BaseEstimator):
     """
 
     def __init__(self, n_estimators=10, bootstrap=True, criterion='squared_error', splitter='best', 
-                 max_depth=2, max_features=None, max_samples=1.0, 
-                 min_samples_leaf=5, n_iter=10, xgb_max_n_estimators=100, xgb_n_estimators_step=10, 
-                 xgb_max_depth=10, xgb_min_learning_rate=0.05, xgb_max_learning_rate=0.5, xgb_learning_rate_step=0.05, 
-                 xgb_booster='gbtree', xgb_min_gamma=0.05, xgb_max_gamma=0.5, xgb_gamma_step=0.05,
-                 xgb_min_min_child_weight=3, xgb_max_min_child_weight=10, xgb_min_child_weight_step=1,
-                 xgb_subsample=0.8, xgb_colsample_bytree=0.8, xgb_colsample_bylevel=1.0, xgb_colsample_bynode=1.0,
+                 max_depth=2, max_features=None, max_samples=1.0, min_samples_leaf=5, 
+                 metric='neg_mean_squared_error', n_iter=10, xgb_max_n_estimators=100, 
+                 xgb_n_estimators_step=10, xgb_max_depth=10, xgb_min_learning_rate=0.05, 
+                 xgb_max_learning_rate=0.5, xgb_learning_rate_step=0.05, xgb_booster='gbtree', 
+                 xgb_min_gamma=0.05, xgb_max_gamma=0.5, xgb_gamma_step=0.05, xgb_min_min_child_weight=3, 
+                 xgb_max_min_child_weight=10, xgb_min_child_weight_step=1, xgb_subsample=0.8, 
+                 xgb_colsample_bytree=0.8, xgb_colsample_bylevel=1.0, xgb_colsample_bynode=1.0,
                  xgb_min_reg_alpha=0.01, xgb_max_reg_alpha=0.1, xgb_reg_alpha_step=0.05, 
                  xgb_min_reg_lambda=0.01, xgb_max_reg_lambda=0.1, xgb_reg_lambda_step=0.05, 
                  n_jobs=None, random_state=None, verbose=0):
@@ -735,6 +748,7 @@ class LCERegressor(RegressorMixin, BaseEstimator):
         self.max_samples = max_samples
         self.min_samples_leaf = min_samples_leaf
         self.n_iter = n_iter
+        self.metric = metric
         self.xgb_max_n_estimators = xgb_max_n_estimators
         self.xgb_n_estimators_step = xgb_n_estimators_step
         self.xgb_max_depth = xgb_max_depth
@@ -772,6 +786,7 @@ class LCERegressor(RegressorMixin, BaseEstimator):
         est.max_features = self.max_features
         est.min_samples_leaf = self.min_samples_leaf
         est.n_iter = self.n_iter
+        est.metric = self.metric
         est.xgb_max_n_estimators = self.xgb_max_n_estimators
         est.xgb_n_estimators_step = self.xgb_n_estimators_step
         est.xgb_max_depth = self.xgb_max_depth
@@ -795,6 +810,7 @@ class LCERegressor(RegressorMixin, BaseEstimator):
         est.xgb_min_reg_lambda = self.xgb_min_reg_lambda
         est.xgb_max_reg_lambda = self.xgb_max_reg_lambda
         est.xgb_reg_lambda_step = self.xgb_reg_lambda_step
+        est.n_jobs = self.n_jobs
         est.random_state = self.random_state
         est.verbose = self.verbose
         return est
@@ -846,7 +862,7 @@ class LCERegressor(RegressorMixin, BaseEstimator):
                                  "got {0}.".format(self.verbose))
         else:
             raise ValueError("verbose must be int")
-    
+            
 
     def fit(self, X, y):
         """

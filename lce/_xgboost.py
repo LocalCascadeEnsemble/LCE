@@ -1,18 +1,18 @@
 import numpy as np
 from hyperopt import fmin, tpe, hp, STATUS_OK, Trials
-from sklearn.metrics import accuracy_score, mean_squared_error
+from sklearn.metrics import check_scoring
 import xgboost as xgb
 
 
-def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
-                       max_depth=10, min_learning_rate=0.05, max_learning_rate=0.5,
-                       learning_rate_step=0.05, booster='gbtree',
+def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100, 
+                       n_estimators_step=10, max_depth=10, min_learning_rate=0.05, 
+                       max_learning_rate=0.5,learning_rate_step=0.05, booster='gbtree',
                        min_gamma=0.05, max_gamma=0.5, gamma_step=0.05, 
                        min_min_child_weight=3, max_min_child_weight=10, min_child_weight_step=1, 
-                       subsample=0.8, colsample_bytree=0.8, colsample_bylevel=1.0, colsample_bynode=1.0, 
-                       min_reg_alpha=0.01, max_reg_alpha=0.1, reg_alpha_step=0.05, 
-                       min_reg_lambda=0.01, max_reg_lambda=0.1, reg_lambda_step=0.05,
-                       random_state=None):
+                       subsample=0.8, colsample_bytree=0.8, colsample_bylevel=1.0, 
+                       colsample_bynode=1.0, min_reg_alpha=0.01, max_reg_alpha=0.1, 
+                       reg_alpha_step=0.05, min_reg_lambda=0.01, max_reg_lambda=0.1, 
+                       reg_lambda_step=0.05, random_state=None):
     """
     Get XGBoost model with the best hyperparameters configuration.
 
@@ -25,8 +25,12 @@ def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
         The class labels.
         
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier 
+        Number of iterations to set the hyperparameters of the base classifier (XGBoost)
         in Hyperopt.
+    
+    metric: string, default="accuracy"
+        The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
         
     n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
@@ -173,7 +177,8 @@ def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
     def p_model(params):
         clf = xgb.XGBClassifier(**params, use_label_encoder=False, verbosity=0)
         clf.fit(X, y)
-        return accuracy_score(y, clf.predict(X))
+        scorer = check_scoring(clf, scoring=metric)
+        return scorer(clf, X, y)
     
     global best
     global best_print
@@ -222,12 +227,12 @@ def xgb_opt_classifier(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
     return clf.fit(X, y)
 
 
-def xgb_opt_regressor(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
-                      max_depth=10, min_learning_rate=0.05, max_learning_rate=0.5,
-                      learning_rate_step=0.05, booster='gbtree',
-                      min_gamma=0.05, max_gamma=0.5, gamma_step=0.05, 
-                      min_min_child_weight=3, max_min_child_weight=10, min_child_weight_step=1, 
-                      subsample=0.8, colsample_bytree=0.8, colsample_bylevel=1.0, colsample_bynode=1.0, 
+def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estimators=100, 
+                      n_estimators_step=10, max_depth=10, min_learning_rate=0.05, 
+                      max_learning_rate=0.5, learning_rate_step=0.05, booster='gbtree',
+                      min_gamma=0.05, max_gamma=0.5, gamma_step=0.05, min_min_child_weight=3, 
+                      max_min_child_weight=10, min_child_weight_step=1, subsample=0.8, 
+                      colsample_bytree=0.8, colsample_bylevel=1.0, colsample_bynode=1.0, 
                       min_reg_alpha=0.01, max_reg_alpha=0.1, reg_alpha_step=0.05, 
                       min_reg_lambda=0.01, max_reg_lambda=0.1, reg_lambda_step=0.05,
                       random_state=None):
@@ -243,8 +248,12 @@ def xgb_opt_regressor(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
         The target values (real numbers).
         
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier 
+        Number of iterations to set the hyperparameters of the base regressor (XGBoost) 
         in Hyperopt.
+        
+    metric: string, default="neg_mean_squared_error"
+        The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
         
     n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
@@ -388,7 +397,8 @@ def xgb_opt_regressor(X, y, n_iter=10, n_estimators=100, n_estimators_step=10,
     def p_model(params):
         reg = xgb.XGBRegressor(**params, verbosity=0)
         reg.fit(X, y)
-        return mean_squared_error(y, reg.predict(X))
+        scorer = check_scoring(reg, scoring=metric)
+        return scorer(reg, X, y)
     
     global best
     global best_print

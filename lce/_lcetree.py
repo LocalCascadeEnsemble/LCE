@@ -58,6 +58,10 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         Number of iterations to set the hyperparameters of the base classifier 
         in Hyperopt.
         
+    metric: string, default="accuracy"
+        The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
+        
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
         XGBoost corresponds to the number of boosting rounds.
@@ -164,6 +168,10 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         Spacing between XGBoost reg_lambda. The range of XGBoost reg_lambda for 
         hyperparameter optimization (Hyperopt) is: 
         np.arange(xgb_min_reg_lambda, xgb_max_reg_lambda+xgb_reg_lambda_step, xgb_reg_lambda_step).
+        
+    n_jobs : int, default=None
+        The number of jobs to run in parallel. 
+        ``None`` means 1. ``-1`` means using all processors. 
 
     random_state : int, RandomState instance or None, default=None
         Controls the randomness of the sampling of the features to consider when 
@@ -183,7 +191,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
     """
 
     def __init__(self, n_classes_in=None, criterion='gini', splitter='best', max_depth=2, 
-                 max_features=None, min_samples_leaf=5, n_iter=10, 
+                 max_features=None, min_samples_leaf=5, n_iter=10, metric='accuracy',
                  xgb_max_n_estimators=100, xgb_n_estimators_step=10, xgb_max_depth=10,
                  xgb_min_learning_rate=0.05, xgb_max_learning_rate=0.5, xgb_learning_rate_step=0.05, 
                  xgb_booster='gbtree', xgb_min_gamma=0.05, xgb_max_gamma=0.5, xgb_gamma_step=0.05,
@@ -192,7 +200,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                  xgb_colsample_bylevel=1.0, xgb_colsample_bynode=1.0, 
                  xgb_min_reg_alpha=0.01, xgb_max_reg_alpha=0.1, xgb_reg_alpha_step=0.05, 
                  xgb_min_reg_lambda=0.01, xgb_max_reg_lambda=0.1, xgb_reg_lambda_step=0.05,
-                 random_state=None, verbose=0):
+                 n_jobs=None, random_state=None, verbose=0):
         self.n_classes_in = n_classes_in
         self.criterion = criterion
         self.splitter = splitter
@@ -200,6 +208,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         self.max_features = max_features
         self.min_samples_leaf = min_samples_leaf
         self.n_iter = n_iter
+        self.metric = metric
         self.xgb_max_n_estimators = xgb_max_n_estimators
         self.xgb_n_estimators_step = xgb_n_estimators_step
         self.xgb_max_depth = xgb_max_depth
@@ -223,6 +232,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         self.xgb_min_reg_lambda = xgb_min_reg_lambda
         self.xgb_max_reg_lambda = xgb_max_reg_lambda
         self.xgb_reg_lambda_step = xgb_reg_lambda_step
+        self.n_jobs = n_jobs
         self.random_state = random_state
         self.verbose = verbose
         
@@ -254,6 +264,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                 """Create a node in the tree."""
                 # Add XGBoost predictions as features to the dataset
                 model_node = xgb_opt_classifier(X, y, n_iter=self.n_iter,
+                                                metric = self.metric,
                                                 n_estimators=self.xgb_max_n_estimators,
                                                 n_estimators_step = self.xgb_n_estimators_step,
                                                 max_depth=self.xgb_max_depth,
@@ -409,7 +420,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
 
                 # Return terminal node if no split
                 if not result["did_split"]:
-                    if self.verbose > 0:
+                    if self.verbose > 0 and self.n_jobs == None:
                         depth_spacing_str = " ".join([" "] * node["depth"])
                         print(" {}*leaf {} @ depth {}: Unique_y {},  N_samples {}".format(depth_spacing_str, node["index"], node["depth"], np.unique(node["data"][1]), np.unique(node["data"][1], return_counts=True)[1]))
                     return
@@ -419,7 +430,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                 (X_left, y_left), (X_right, y_right) = result["data"]
 
                 # Report created node to user
-                if self.verbose > 0:
+                if self.verbose > 0 and self.n_jobs == None:
                     depth_spacing_str = " ".join([" "] * node["depth"])
                     print(" {}node {} @ depth {}: dataset={}, N_left={}, N_right={}".format(depth_spacing_str, node["index"], node["depth"], (X_left.shape[0]+X_right.shape[0], X_left.shape[1]), X_left.shape[0], X_right.shape[0]))
 
@@ -432,7 +443,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                 _split_traverse_node(node["children"]["right"], container)
 
             container = {"index_node_global": 0}
-            if self.verbose > 0:
+            if self.verbose > 0 and self.n_jobs == None:
                 print('\nNew Tree')
             root = _create_node(X, y, 0, container)  
             _split_traverse_node(root, container) 
@@ -624,8 +635,12 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier 
+        Number of iterations to set the hyperparameters of the base regressor (XGBoost)
         in Hyperopt.
+        
+    metric: string, default="neg_mean_squared_error"
+        The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 
+        are the ones from `scikit-learn <https://scikit-learn.org/stable/modules/model_evaluation.html>`.
         
     xgb_max_n_estimators : int, default=100
         The maximum number of XGBoost estimators. The number of estimators of 
@@ -733,6 +748,10 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
         Spacing between XGBoost reg_lambda. The range of XGBoost reg_lambda for 
         hyperparameter optimization (Hyperopt) is: 
         np.arange(xgb_min_reg_lambda, xgb_max_reg_lambda+xgb_reg_lambda_step, xgb_reg_lambda_step).
+    
+    n_jobs : int, default=None
+        The number of jobs to run in parallel. 
+        ``None`` means 1. ``-1`` means using all processors. 
 
     random_state : int, RandomState instance or None, default=None
         Controls the randomness of the sampling of the features to consider when 
@@ -749,7 +768,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
     """
 
     def __init__(self, criterion='squared_error', splitter='best', max_depth=2, 
-                 max_features=None, min_samples_leaf=5, n_iter=10, 
+                 max_features=None, min_samples_leaf=5, n_iter=10, metric = 'neg_mean_squared_error',
                  xgb_max_n_estimators=100, xgb_n_estimators_step=10, xgb_max_depth=10,
                  xgb_min_learning_rate=0.05, xgb_max_learning_rate=0.5, xgb_learning_rate_step=0.05, 
                  xgb_booster='gbtree', xgb_min_gamma=0.05, xgb_max_gamma=0.5, xgb_gamma_step=0.05,
@@ -758,13 +777,14 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                  xgb_colsample_bylevel=1.0, xgb_colsample_bynode=1.0, 
                  xgb_min_reg_alpha=0.01, xgb_max_reg_alpha=0.1, xgb_reg_alpha_step=0.05, 
                  xgb_min_reg_lambda=0.01, xgb_max_reg_lambda=0.1, xgb_reg_lambda_step=0.05,
-                 random_state=None, verbose=0):
+                 n_jobs=None, random_state=None, verbose=0):
         self.criterion = criterion
         self.splitter = splitter
         self.max_depth = max_depth
         self.max_features = max_features
         self.min_samples_leaf = min_samples_leaf
         self.n_iter = n_iter
+        self.metric = metric
         self.xgb_max_n_estimators = xgb_max_n_estimators
         self.xgb_n_estimators_step = xgb_n_estimators_step
         self.xgb_max_depth = xgb_max_depth
@@ -788,6 +808,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
         self.xgb_min_reg_lambda = xgb_min_reg_lambda
         self.xgb_max_reg_lambda = xgb_max_reg_lambda
         self.xgb_reg_lambda_step = xgb_reg_lambda_step
+        self.n_jobs = n_jobs
         self.random_state = random_state
         self.verbose = verbose
         
@@ -818,30 +839,31 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                 """Create a node in the tree."""
                 # Add XGBoost predictions as features to the dataset
                 model_node = xgb_opt_regressor(X, y, n_iter=self.n_iter,
-                                                n_estimators=self.xgb_max_n_estimators,
-                                                n_estimators_step = self.xgb_n_estimators_step,
-                                                max_depth=self.xgb_max_depth,
-                                                min_learning_rate = self.xgb_min_learning_rate,
-                                                max_learning_rate = self.xgb_max_learning_rate,
-                                                learning_rate_step = self.xgb_learning_rate_step,
-                                                booster = self.xgb_booster,
-                                                min_gamma = self.xgb_min_gamma,
-                                                max_gamma = self.xgb_max_gamma,
-                                                gamma_step = self.xgb_gamma_step,
-                                                min_min_child_weight = self.xgb_min_min_child_weight,
-                                                max_min_child_weight = self.xgb_max_min_child_weight,
-                                                min_child_weight_step = self.xgb_min_child_weight_step,
-                                                subsample=self.xgb_subsample, 
-                                                colsample_bytree = self.xgb_colsample_bytree,
-                                                colsample_bylevel = self.xgb_colsample_bylevel,
-                                                colsample_bynode = self.xgb_colsample_bynode,
-                                                min_reg_alpha = self.xgb_min_reg_alpha,
-                                                max_reg_alpha = self.xgb_max_reg_alpha,
-                                                reg_alpha_step = self.xgb_reg_alpha_step,
-                                                min_reg_lambda  = self.xgb_min_reg_lambda,
-                                                max_reg_lambda  = self.xgb_max_reg_lambda,
-                                                reg_lambda_step = self.xgb_reg_lambda_step,
-                                                random_state=self.random_state)
+                                               metric = self.metric,
+                                               n_estimators=self.xgb_max_n_estimators,
+                                               n_estimators_step = self.xgb_n_estimators_step,
+                                               max_depth=self.xgb_max_depth,
+                                               min_learning_rate = self.xgb_min_learning_rate,
+                                               max_learning_rate = self.xgb_max_learning_rate,
+                                               learning_rate_step = self.xgb_learning_rate_step,
+                                               booster = self.xgb_booster,
+                                               min_gamma = self.xgb_min_gamma,
+                                               max_gamma = self.xgb_max_gamma,
+                                               gamma_step = self.xgb_gamma_step,
+                                               min_min_child_weight = self.xgb_min_min_child_weight,
+                                               max_min_child_weight = self.xgb_max_min_child_weight,
+                                               min_child_weight_step = self.xgb_min_child_weight_step,
+                                               subsample=self.xgb_subsample, 
+                                               colsample_bytree = self.xgb_colsample_bytree,
+                                               colsample_bylevel = self.xgb_colsample_bylevel,
+                                               colsample_bynode = self.xgb_colsample_bynode,
+                                               min_reg_alpha = self.xgb_min_reg_alpha,
+                                               max_reg_alpha = self.xgb_max_reg_alpha,
+                                               reg_alpha_step = self.xgb_reg_alpha_step,
+                                               min_reg_lambda  = self.xgb_min_reg_lambda,
+                                               max_reg_lambda  = self.xgb_max_reg_lambda,
+                                               reg_lambda_step = self.xgb_reg_lambda_step,
+                                               random_state=self.random_state)
                 preds = np.around(model_node.predict(X), 6)
                 X = np.insert(X, X.shape[1], 0, axis=1)
                 X[:,-1] = preds
@@ -863,8 +885,8 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                                         missing_only == False]
                 if all(split_val_conditions):
                     split = DecisionTreeRegressor(criterion=self.criterion, splitter=self.splitter, 
-                                                   max_depth=1, max_features=self.max_features, 
-                                                   random_state=self.random_state)
+                                                  max_depth=1, max_features=self.max_features, 
+                                                  random_state=self.random_state)
                     if missing:
                         nans = np.isnan(X).any(axis=1)
                         split.fit(X[~nans], y[~nans])
@@ -963,7 +985,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
 
                 # Return terminal node if no split
                 if not result["did_split"]:
-                    if self.verbose > 0:
+                    if self.verbose > 0 and self.n_jobs == None:
                         depth_spacing_str = " ".join([" "] * node["depth"])
                         print(" {}*leaf {} @ depth {}: Unique_y {},  N_samples {}".format(depth_spacing_str, node["index"], node["depth"], np.unique(node["data"][1]), np.unique(node["data"][1], return_counts=True)[1]))
                     return
@@ -973,7 +995,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                 (X_left, y_left), (X_right, y_right) = result["data"]
 
                 # Report created node to user
-                if self.verbose > 0:
+                if self.verbose > 0 and self.n_jobs == None:
                     depth_spacing_str = " ".join([" "] * node["depth"])
                     print(" {}node {} @ depth {}: dataset={}, N_left={}, N_right={}".format(depth_spacing_str, node["index"], node["depth"], (X_left.shape[0]+X_right.shape[0], X_left.shape[1]), X_left.shape[0], X_right.shape[0]))
 
@@ -986,7 +1008,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                 _split_traverse_node(node["children"]["right"], container)
 
             container = {"index_node_global": 0}
-            if self.verbose > 0:
+            if self.verbose > 0 and self.n_jobs == None:
                 print('\nNew Tree')
             root = _create_node(X, y, 0, container)  
             _split_traverse_node(root, container) 
