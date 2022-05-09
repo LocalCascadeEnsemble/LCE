@@ -21,10 +21,14 @@ LCE: Local Cascade Ensemble
 .. |DOI| image:: https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg
 .. _DOI: https://doi.org/10.1007/s10618-022-00823-6
 
+.. image:: ./logo/logo_lce.svg
+   :scale: 50
+   :align: center
+   
 
-**Local Cascade Ensemble (LCE)** proposes to **further enhance** the prediction performance of the state-of-the-art 
-**Random Forest** and **XGBoost** by combining their strengths and adopting a complementary implicit diversification. 
-LCE is a hybrid ensemble method that combines an explicit boosting-bagging approach to handle the bias-variance trade-off faced by 
+**Local Cascade Ensemble (LCE)** is a machine learning method that **further enhances** the prediction performance of the state-of-the-art **Random Forest** and **XGBoost**.
+LCE combines their strengths and adopts a complementary diversification approach to obtain a better generalizing predictor.
+Specifically, LCE is a hybrid ensemble method that combines an explicit boosting-bagging approach to handle the bias-variance trade-off faced by 
 machine learning models and an implicit divide-and-conquer approach to individualize classifier errors on different parts of the training data.
 LCE has been evaluated on a public benchmark and published in the journal *Data Mining and Knowledge Discovery*.
 
@@ -38,9 +42,13 @@ Getting Started
 Installation
 ------------
 
-You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with the following command::
+You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with ``pip``::
 
 	pip install lcensemble
+
+or ``conda``::
+
+	conda install -c conda-forge lcensemble
 	
 
 First Example on Iris Dataset
@@ -74,10 +82,7 @@ LCE documentation can be found `here <https://lce.readthedocs.io/en/latest/>`_.
 
 Reference
 =========
-The full information about LCE can be found in the associated journal paper.
-
-.. [1] Fauvel, K., E. Fromont, V. Masson, P. Faverdin and A. Termier. "XEM: An explainable-by-design ensemble method for multivariate time series classification", Data Mining and Knowledge Discovery, 2022. `https://hal.inria.fr/hal-03599214/document <https://hal.inria.fr/hal-03599214/document>`_
-
+The full information about LCE can be found in the associated `journal paper <https://hal.inria.fr/hal-03599214/document>`_. 
 If you use the package, please cite us with the following BibTex::
 
 	@article{Fauvel22-LCE,

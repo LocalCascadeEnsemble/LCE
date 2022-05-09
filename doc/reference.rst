@@ -3,10 +3,7 @@ Citation
 #####################################
 
 
-The full information about LCE can be found in the associated journal paper.
-
-.. [1] Fauvel, K., E. Fromont, V. Masson, P. Faverdin and A. Termier. "XEM: An explainable-by-design ensemble method for multivariate time series classification", Data Mining and Knowledge Discovery, 2022. https://hal.inria.fr/hal-03599214/document
-
+The full information about LCE can be found in the associated `journal paper <https://hal.inria.fr/hal-03599214/document>`_.
 If you use the package, please cite us with the following BibTex::
 
 	@article{Fauvel22-LCE,

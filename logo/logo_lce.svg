@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="210mm"
+   height="200mm"
+   viewBox="0 0 210 200"
+   version="1.1"
+   id="svg8">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient7385"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#cccccc;stop-opacity:1;"
+         offset="0"
+         id="stop7383" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient7343"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#cccccc;stop-opacity:1;"
+         offset="0"
+         id="stop7341" />
+    </linearGradient>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     transform="translate(0,-97)">
+    <rect
+       id="rect10"
+       width="36.285717"
+       height="107.34524"
+       x="19.654762"
+       y="76.261932"
+       style="opacity:0;fill:#666666;stroke-width:0.26458332"
+       rx="2.7755576e-017" />
+    <rect
+       style="opacity:0;fill:#808080;stroke-width:0.26458332"
+       id="rect12"
+       width="27.491377"
+       height="78.759079"
+       x="67.630135"
+       y="117.60275"
+       rx="2.7755586e-017" />
+    <rect
+       style="opacity:0;fill:#333333;stroke-width:0.26458332"
+       id="rect14"
+       width="43.094593"
+       height="52.753727"
+       x="67.630135"
+       y="117.60275"
+       rx="2.7755586e-017" />
+    <rect
+       style="opacity:0;fill:#333333;stroke-width:0.26458332"
+       id="rect5074"
+       width="18.203751"
+       height="40.865562"
+       x="69.116158"
+       y="125.40437"
+       rx="2.7755586e-017" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#d3d3d3;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5076"
+       width="23.033318"
+       height="71.328987"
+       x="70.38842"
+       y="117.86543"
+       rx="2.7755586e-017" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#d3d3d3;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5076-7"
+       width="23.033318"
+       height="71.328987"
+       x="93.483337"
+       y="134.42918"
+       rx="2.7755586e-017" />
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#d3d3d3;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect5076-7-3"
+       width="23.033318"
+       height="71.328987"
+       x="116.5094"
+       y="151.49179"
+       rx="2.7755586e-017" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.20558548px;line-height:1.25;font-family:'HP Simplified Hans';-inkscape-font-specification:'HP Simplified Hans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;opacity:1;fill:#000000;fill-opacity:1;stroke:none;stroke-width:19.15158272"
+       x="80.414322"
+       y="340.20816"
+       id="text5130"
+       transform="scale(1.2974841,0.77072236)"><tspan
+         x="80.414322"
+         y="340.20816"
+         id="tspan5128"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.20558548px;font-family:'HP Simplified Hans';-inkscape-font-specification:'HP Simplified Hans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:19.15158272"><tspan
+           x="80.414322"
+           y="340.20816"
+           id="tspan5126"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.20558548px;font-family:'HP Simplified Hans';-inkscape-font-specification:'HP Simplified Hans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:19.15158272">LCE</tspan></tspan></text>
+    <path
+       style="fill:none;stroke:#d3d3d3;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 16.767536,278.3959 H 193.23246"
+       id="path4539" />
+  </g>
+</svg>
