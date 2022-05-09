@@ -20,10 +20,9 @@ LCE: Local Cascade Ensemble
 
 .. |DOI| image:: https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg
 .. _DOI: https://doi.org/10.1007/s10618-022-00823-6
-
-.. image:: ./logo/logo_lce.svg
-   :width: 50%
-   :align: center
+   
+.. raw:: html
+   <img src="./logo/logo_lce.svg" align="center" width="40%">
    
 
 **Local Cascade Ensemble (LCE)** is a machine learning method that **further enhances** the prediction performance of the state-of-the-art **Random Forest** and **XGBoost**.
