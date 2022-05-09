@@ -22,6 +22,7 @@ LCE: Local Cascade Ensemble
 .. _DOI: https://doi.org/10.1007/s10618-022-00823-6
    
 .. raw:: html
+
    <img src="./logo/logo_lce.svg" align="center" width="40%">
    
 
