@@ -24,7 +24,7 @@ LCE: Local Cascade Ensemble
 .. raw:: html
 	
 	<p align="center">
-	<img src="./logo/logo_lce.svg" width="35%">	
+	<img src="./logo/logo_lce.png" width="35%">	
 	</p>
    
 
