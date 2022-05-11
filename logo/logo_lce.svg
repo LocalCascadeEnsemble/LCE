@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="210mm" height="200mm" version="1.1" viewBox="0 0 210 200" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(0,-97)">
+  <g stroke-width=".26458">
+   <rect x="19.655" y="76.262" width="36.286" height="107.35" rx="2.7756e-17" opacity="0"/>
+   <rect x="67.63" y="117.6" width="27.491" height="78.759" rx="2.7756e-17" opacity="0"/>
+   <rect x="67.63" y="117.6" width="43.095" height="52.754" rx="2.7756e-17" opacity="0"/>
+   <rect x="69.116" y="125.4" width="18.204" height="40.866" rx="2.7756e-17" opacity="0"/>
+  </g>
+  <g fill="#fff" stroke="#d3d3d3">
+   <rect x="70.388" y="117.87" width="23.033" height="71.329" rx="2.7756e-17"/>
+   <rect x="93.483" y="134.43" width="23.033" height="71.329" rx="2.7756e-17"/>
+   <rect x="116.51" y="151.49" width="23.033" height="71.329" rx="2.7756e-17"/>
+  </g>
+  <text transform="scale(1.2975 .77072)" x="80.414322" y="340.20816" fill="#000000" font-family="'HP Simplified Hans'" font-size="35.206px" letter-spacing="0px" stroke-width="19.152" text-align="center" text-anchor="middle" word-spacing="0px" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;line-height:1.25" xml:space="preserve"><tspan x="80.414322" y="340.20816" font-family="'HP Simplified Hans'" font-size="35.206px" stroke-width="19.152" text-align="center" text-anchor="middle" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal"><tspan x="80.414322" y="340.20816" font-family="'HP Simplified Hans'" font-size="35.206px" stroke-width="19.152" text-align="center" text-anchor="middle" style="font-feature-settings:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal">LCE</tspan></tspan></text>
+  <path d="m16.768 278.4h176.46" fill="none" stroke="#d3d3d3" stroke-width="1.5"/>
+ </g>
+</svg>
