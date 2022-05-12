@@ -73,8 +73,8 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier (XGBoost)
-        in Hyperopt. 
+        Number of iterations to set the hyperparameters of each node base 
+        classifier (XGBoost) in Hyperopt. 
         
     metric: string, default="accuracy"
         The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
@@ -450,7 +450,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
     def predict_proba(self, X):
         """
         Predict class probabilities for X.
-        The predicted class probabilities of an input sample is computed as 
+        The predicted class probabilities of an input sample are computed as 
         the mean predicted class probabilities of the base estimators in the 
         ensemble.
 
@@ -563,8 +563,8 @@ class LCERegressor(RegressorMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base regressor (XGBoost) 
-        in Hyperopt.
+        Number of iterations to set the hyperparameters of each node base 
+        regressor (XGBoost) in Hyperopt.
         
     metric: string, default="neg_mean_squared_error"
         The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 

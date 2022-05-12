@@ -55,8 +55,8 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base classifier 
-        in Hyperopt.
+        Number of iterations to set the hyperparameters of each node base 
+        classifier in Hyperopt.
         
     metric: string, default="accuracy"
         The score of the base classifier (XGBoost) optimized by Hyperopt. Supported metrics 
@@ -635,8 +635,8 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
           number of samples for each node.    
 
     n_iter: int, default=10
-        Number of iterations to set the hyperparameters of the base regressor (XGBoost)
-        in Hyperopt.
+        Number of iterations to set the hyperparameters of each node base 
+        regressor (XGBoost) in Hyperopt.
         
     metric: string, default="neg_mean_squared_error"
         The score of the base regressor (XGBoost) optimized by Hyperopt. Supported metrics 
