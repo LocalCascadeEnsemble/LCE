@@ -38,7 +38,7 @@ Getting Started
 Installation
 ------------
 
-LCE package can be installed using ``pip``::
+You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with ``pip``::
 
 	pip install lcensemble
 
