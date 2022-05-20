@@ -238,7 +238,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
 
     References
     ----------
-    .. [1] Fauvel, K., E. Fromont, V. Masson, P. Faverdin and A. Termier. "XEM: An Explainable-by-Design Ensemble Method for Multivariate Time Series Classification", Data Mining and Knowledge Discovery, 2022. https://hal.inria.fr/hal-03599214/document
+    .. [1] Fauvel, K., E. Fromont, V. Masson, P. Faverdin and A. Termier. "XEM: An Explainable-by-Design Ensemble Method for Multivariate Time Series Classification", Data Mining and Knowledge Discovery, 36(3):917-957, 2022. https://hal.inria.fr/hal-03599214/document
 
     Examples
     --------

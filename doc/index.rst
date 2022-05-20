@@ -60,4 +60,4 @@ A set of examples using LCE on public datasets.
 
 The full information about LCE can be found in the associated `journal paper <https://hal.inria.fr/hal-03599214/document>`_:
 
-.. [1] Fauvel, K., E. Fromont, V. Masson, P. Faverdin and A. Termier. "XEM: An explainable-by-design ensemble method for multivariate time series classification", Data Mining and Knowledge Discovery, 2022
+.. [1] Fauvel, K., E. Fromont, V. Masson, P. Faverdin and A. Termier. "XEM: An explainable-by-design ensemble method for multivariate time series classification", Data Mining and Knowledge Discovery, 36(3):917–957, 2022

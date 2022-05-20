@@ -41,10 +41,6 @@ Installation
 You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with ``pip``::
 
 	pip install lcensemble
-
-or ``conda``::
-
-	conda install -c conda-forge lcensemble
 	
 	
 First Example on Iris Dataset
@@ -88,5 +84,7 @@ If you use the package, please cite us with the following BibTex::
 	  title = {{XEM: An Explainable-by-Design Ensemble Method for Multivariate Time Series Classification}},
 	  journal = {Data Mining and Knowledge Discovery},
 	  year = {2022},
-	  doi = {10.1007/s10618-022-00823-6}
+	  volume = {36},
+	  number = {3},
+	  pages = {917-957}
 	}
