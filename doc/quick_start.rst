@@ -12,6 +12,10 @@ You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with ``p
 
 	pip install lcensemble
 	
+Or ``conda``::
+
+	conda install -c conda-forge lcensemble
+	
 
 First Example on Iris Dataset
 =============================

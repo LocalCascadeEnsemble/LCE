@@ -42,6 +42,10 @@ You can install LCE from `PyPI <https://pypi.org/project/lcensemble/>`_ with ``p
 
 	pip install lcensemble
 	
+Or ``conda``::
+
+	conda install -c conda-forge lcensemble
+	
 	
 First Example on Iris Dataset
 -----------------------------
@@ -59,7 +63,7 @@ LCEClassifier prediction on an Iris test set::
 	X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, random_state=0)
 
 	# Train LCEClassifier with default parameters
-	clf = LCEClassifier(random_state=0)
+	clf = LCEClassifier(n_jobs=-1, random_state=0)
 	clf.fit(X_train, y_train)
 
 	# Make prediction and generate classification report
