@@ -418,7 +418,7 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
         perf = p_model(params)
         if perf > best:
             best = perf
-        best_print=best
+        best_print = best
         return {'loss': best, 'status': STATUS_OK}
     
     rstate = np.random.default_rng(random_state)
