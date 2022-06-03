@@ -162,19 +162,19 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
         'n_estimators': hp.choice('n_estimators', n_estimators),
         'max_depth': hp.choice('max_depth', max_depth),
         'learning_rate': hp.choice('learning_rate', learning_rate),
-        'booster':booster,
-        'gamma':hp.choice('gamma',gamma),
+        'booster': booster,
+        'gamma': hp.choice('gamma',gamma),
         'min_child_weight': hp.choice('min_child_weight', min_child_weight),
         'subsample': hp.choice('subsample', subsample),
         'colsample_bytree': hp.choice('colsample_bytree', colsample_bytree),
         'colsample_bylevel': hp.choice('colsample_bylevel', colsample_bylevel),
         'colsample_bynode': hp.choice('colsample_bynode', colsample_bynode),
-        'reg_alpha':hp.choice('reg_alpha',reg_alpha),
-        'reg_lambda':hp.choice('reg_lambda',reg_lambda),
-        'objective':'multi:softprob',
-        'num_class':n_classes,
-        'n_jobs':n_jobs,
-        'random_state':random_state,
+        'reg_alpha': hp.choice('reg_alpha',reg_alpha),
+        'reg_lambda': hp.choice('reg_lambda',reg_lambda),
+        'objective': 'multi:softprob',
+        'num_class': n_classes,
+        'n_jobs': n_jobs,
+        'random_state': random_state
     }
     
     # Get best configuration
@@ -194,7 +194,7 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
         perf = p_model(params)
         if perf > best:
             best = perf
-        best_print=best
+        best_print = best
         return {'loss': -best, 'status': STATUS_OK}
     
     rstate = np.random.default_rng(random_state)
@@ -210,22 +210,22 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
     
     # Fit best model
     final_params = {
-        'n_estimators':n_estimators[best['n_estimators']],
-        'max_depth':max_depth[best['max_depth']],
-        'learning_rate':learning_rate[best['learning_rate']],
-        'booster':booster,
-        'gamma':gamma[best['gamma']],        
-        'min_child_weight':min_child_weight[best['min_child_weight']],
-        'subsample':subsample[best['subsample']],
-        'colsample_bytree':colsample_bytree[best['colsample_bytree']],
-        'colsample_bylevel':colsample_bylevel[best['colsample_bylevel']],
-        'colsample_bynode':colsample_bynode[best['colsample_bynode']],
-        'reg_alpha':reg_alpha[best['reg_alpha']],
-        'reg_lambda':reg_lambda[best['reg_lambda']],
-        'objective':'multi:softprob',
-        'num_class':n_classes,
-        'n_jobs':n_jobs,
-        'random_state':random_state,
+        'n_estimators': n_estimators[best['n_estimators']],
+        'max_depth': max_depth[best['max_depth']],
+        'learning_rate': learning_rate[best['learning_rate']],
+        'booster': booster,
+        'gamma': gamma[best['gamma']],        
+        'min_child_weight': min_child_weight[best['min_child_weight']],
+        'subsample': subsample[best['subsample']],
+        'colsample_bytree': colsample_bytree[best['colsample_bytree']],
+        'colsample_bylevel': colsample_bylevel[best['colsample_bylevel']],
+        'colsample_bynode': colsample_bynode[best['colsample_bynode']],
+        'reg_alpha': reg_alpha[best['reg_alpha']],
+        'reg_lambda': reg_lambda[best['reg_lambda']],
+        'objective': 'multi:softprob',
+        'num_class': n_classes,
+        'n_jobs': n_jobs,
+        'random_state': random_state
     }
     clf = xgb.XGBClassifier(**final_params, use_label_encoder=False, verbosity=0)
     return clf.fit(X, y)
@@ -387,18 +387,18 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
         'n_estimators': hp.choice('n_estimators', n_estimators),
         'max_depth': hp.choice('max_depth', max_depth),
         'learning_rate': hp.choice('learning_rate', learning_rate),
-        'booster':booster,
-        'gamma':hp.choice('gamma',gamma),
+        'booster': booster,
+        'gamma': hp.choice('gamma',gamma),
         'min_child_weight': hp.choice('min_child_weight', min_child_weight),
         'subsample': hp.choice('subsample', subsample),
         'colsample_bytree': hp.choice('colsample_bytree', colsample_bytree),
         'colsample_bylevel': hp.choice('colsample_bylevel', colsample_bylevel),
         'colsample_bynode': hp.choice('colsample_bynode', colsample_bynode),
-        'reg_alpha':hp.choice('reg_alpha',reg_alpha),
-        'reg_lambda':hp.choice('reg_lambda',reg_lambda),
-        'objective':'reg:squarederror',
-        'n_jobs':n_jobs,
-        'random_state':random_state,
+        'reg_alpha': hp.choice('reg_alpha',reg_alpha),
+        'reg_lambda': hp.choice('reg_lambda',reg_lambda),
+        'objective': 'reg:squarederror',
+        'n_jobs': n_jobs,
+        'random_state': random_state
     }
     
     # Get best configuration
@@ -434,21 +434,21 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
     
     # Fit best model
     final_params = {
-        'n_estimators':n_estimators[best['n_estimators']],
-        'max_depth':max_depth[best['max_depth']],
-        'learning_rate':learning_rate[best['learning_rate']],
-        'booster':booster,
-        'gamma':gamma[best['gamma']],        
-        'min_child_weight':min_child_weight[best['min_child_weight']],
-        'subsample':subsample[best['subsample']],
-        'colsample_bytree':colsample_bytree[best['colsample_bytree']],
-        'colsample_bylevel':colsample_bylevel[best['colsample_bylevel']],
-        'colsample_bynode':colsample_bynode[best['colsample_bynode']],
-        'reg_alpha':reg_alpha[best['reg_alpha']],
-        'reg_lambda':reg_lambda[best['reg_lambda']],
-        'objective':'reg:squarederror',
-        'n_jobs':n_jobs,
-        'random_state':random_state,
+        'n_estimators': n_estimators[best['n_estimators']],
+        'max_depth': max_depth[best['max_depth']],
+        'learning_rate': learning_rate[best['learning_rate']],
+        'booster': booster,
+        'gamma': gamma[best['gamma']],        
+        'min_child_weight': min_child_weight[best['min_child_weight']],
+        'subsample': subsample[best['subsample']],
+        'colsample_bytree': colsample_bytree[best['colsample_bytree']],
+        'colsample_bylevel': colsample_bylevel[best['colsample_bylevel']],
+        'colsample_bynode': colsample_bynode[best['colsample_bynode']],
+        'reg_alpha': reg_alpha[best['reg_alpha']],
+        'reg_lambda': reg_lambda[best['reg_lambda']],
+        'objective': 'reg:squarederror',
+        'n_jobs': n_jobs,
+        'random_state': random_state
     }
     reg = xgb.XGBRegressor(**final_params, verbosity=0)
     return reg.fit(X, y)
