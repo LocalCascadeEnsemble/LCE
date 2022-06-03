@@ -288,6 +288,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                                                 min_reg_lambda  = self.xgb_min_reg_lambda,
                                                 max_reg_lambda  = self.xgb_max_reg_lambda,
                                                 reg_lambda_step = self.xgb_reg_lambda_step,
+                                                n_jobs = self.n_jobs,
                                                 random_state=self.random_state)
                 pred_proba = np.around(model_node.predict_proba(X), 6)
 
@@ -863,6 +864,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                                                min_reg_lambda  = self.xgb_min_reg_lambda,
                                                max_reg_lambda  = self.xgb_max_reg_lambda,
                                                reg_lambda_step = self.xgb_reg_lambda_step,
+                                               n_jobs = self.n_jobs,
                                                random_state=self.random_state)
                 preds = np.around(model_node.predict(X), 6)
                 X = np.insert(X, X.shape[1], 0, axis=1)

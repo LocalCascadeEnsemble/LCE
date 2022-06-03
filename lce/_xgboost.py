@@ -12,7 +12,7 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
                        subsample=0.8, colsample_bytree=0.8, colsample_bylevel=1.0, 
                        colsample_bynode=1.0, min_reg_alpha=0.01, max_reg_alpha=0.1, 
                        reg_alpha_step=0.05, min_reg_lambda=0.01, max_reg_lambda=0.1, 
-                       reg_lambda_step=0.05, random_state=None):
+                       reg_lambda_step=0.05, n_jobs=None, random_state=None):
     """
     Get XGBoost model with the best hyperparameters configuration.
 
@@ -125,6 +125,10 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
     
     reg_lambda_step : float, default=0.05
         Spacing between XGBoost reg_lambda.
+        
+    n_jobs : int, default=None
+        The number of jobs to run in parallel. 
+        ``None`` means 1. ``-1`` means using all processors.
 
     random_state : int, RandomState instance or None, default=None
         Controls the randomness of the base classifier XGBoost and
@@ -169,7 +173,7 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
         'reg_lambda':hp.choice('reg_lambda',reg_lambda),
         'objective':'multi:softprob',
         'num_class':n_classes,
-        'n_jobs':-1,
+        'n_jobs':n_jobs,
         'random_state':random_state,
     }
     
@@ -220,7 +224,7 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
         'reg_lambda':reg_lambda[best['reg_lambda']],
         'objective':'multi:softprob',
         'num_class':n_classes,
-        'n_jobs':-1,
+        'n_jobs':n_jobs,
         'random_state':random_state,
     }
     clf = xgb.XGBClassifier(**final_params, use_label_encoder=False, verbosity=0)
@@ -235,7 +239,7 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
                       colsample_bytree=0.8, colsample_bylevel=1.0, colsample_bynode=1.0, 
                       min_reg_alpha=0.01, max_reg_alpha=0.1, reg_alpha_step=0.05, 
                       min_reg_lambda=0.01, max_reg_lambda=0.1, reg_lambda_step=0.05,
-                      random_state=None):
+                      n_jobs=None, random_state=None):
     """
     Get XGBoost model with the best hyperparameters configuration.
 
@@ -348,6 +352,10 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
     
     reg_lambda_step : float, default=0.05
         Spacing between XGBoost reg_lambda.
+        
+    n_jobs : int, default=None
+        The number of jobs to run in parallel. 
+        ``None`` means 1. ``-1`` means using all processors.
 
     random_state : int, RandomState instance or None, default=None
         Controls the randomness of the base classifier XGBoost and
@@ -389,7 +397,7 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
         'reg_alpha':hp.choice('reg_alpha',reg_alpha),
         'reg_lambda':hp.choice('reg_lambda',reg_lambda),
         'objective':'reg:squarederror',
-        'n_jobs':-1,
+        'n_jobs':n_jobs,
         'random_state':random_state,
     }
     
@@ -439,7 +447,7 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
         'reg_alpha':reg_alpha[best['reg_alpha']],
         'reg_lambda':reg_lambda[best['reg_lambda']],
         'objective':'reg:squarederror',
-        'n_jobs':-1,
+        'n_jobs':n_jobs,
         'random_state':random_state,
     }
     reg = xgb.XGBRegressor(**final_params, verbosity=0)
