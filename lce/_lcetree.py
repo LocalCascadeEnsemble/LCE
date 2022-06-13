@@ -514,49 +514,99 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         Returns
         -------
         y : ndarray of shape (n_samples,)
-            The class probabilities of the input samples. 
+            The class probabilities of the input samples.
         """
-        
-        def _predict_proba(node, x):
-            no_children = node["children"]["left"] is None and \
-                          node["children"]["right"] is None
-            if no_children:
-                y_pred_x = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
-                d = 0
-                for j in range(0, node["num_classes"]):
-                    x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if j in node["classes_in"]: 
-                        if node["classes_in"].size == 1:
-                            x[:,-1] = y_pred_x[:,1]
-                        else:
-                            x[:,-1] = y_pred_x[:,d]
-                            d += 1
-                return x[:, -node["num_classes"]:][0]
-            else:
-                pred_proba = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
-                c = 0
-                for i in range(0, node["num_classes"]):
-                    x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if i in node["classes_in"]:
-                        if node["classes_in"].size == 1:
-                            x[:,-1] = pred_proba[:,1]
-                        else:
-                            x[:,-1] = pred_proba[:,c]
-                            c += 1
-                if np.isnan(x).sum() > 0:
-                    if node["missing_side"] == 'left':
-                        x_left, x_right = x.reshape(-1, 1).T, []
-                    else:
-                        x_left, x_right = [], x.reshape(-1, 1).T
-                else:
-                    leafs = node["split"].apply(x.reshape(-1, 1).T)
-                    x_left, x_right = np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==1),:]), np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==2),:])
-                if len(x_left) > 0:
-                    return _predict_proba(node["children"]["left"], x_left)
-                else:
-                    return _predict_proba(node["children"]["right"], x_right)
 
-        y_pred = np.array([_predict_proba(self.tree, x) for x in X])
+        def _predict_proba_leaf(node, X):
+            # do not use the index column on index 0
+            pred_proba = np.around(node["model"].predict_proba(X[:, 1:]), 6)
+
+            # add the prediction proba to the features
+            d = 0
+            for j in range(0, node["num_classes"]):
+                X = np.insert(X, X.shape[1], 0, axis=1)
+                if j in node["classes_in"]:
+                    if node["classes_in"].size == 1:
+                        X[:, -1] = pred_proba[:, 1]
+                    else:
+                        X[:, -1] = pred_proba[:, d]
+                        d += 1
+
+            # return the index and the probabilities for each class
+            index_probas = np.column_stack((X[:, 0:1], X[:, -node["num_classes"]:]))
+            return index_probas
+
+        def _has_children(node):
+            return node["children"]["left"] is not None or node["children"]["right"] is not None
+
+        def _predict_proba(node, X, y_pred_final):
+            """
+            :param y_pred_final: ndarray which stores the predicted probabilities for each class and in the first column
+            an index to be able to sort the predictions to the order given by X
+            """
+            if not _has_children(node):
+                y_pred = _predict_proba_leaf(node, X)
+
+                if y_pred_final is not None:
+                    y_pred_final = np.concatenate((y_pred_final, y_pred), axis=0)
+
+                else:
+                    y_pred_final = y_pred
+
+                return y_pred_final
+
+            # do not use the index column on index 0
+            pred_proba = np.around(node["model"].predict_proba(X[:, 1:]), 6)
+
+            # add the prediction proba to the features
+            c = 0
+            for i in range(0, node["num_classes"]):
+                X = np.insert(X, X.shape[1], 0, axis=1)
+                if i in node["classes_in"]:
+                    if node["classes_in"].size == 1:
+                        X[:, -1] = pred_proba[:, 1]
+                    else:
+                        X[:, -1] = pred_proba[:, c]
+                        c += 1
+
+            if np.isnan(X).sum() > 0:
+                if node["missing_side"] == 'left':
+                    x_left, x_right = X[np.isnan(X).any(axis=1), :], X[~np.isnan(X).any(axis=1), :]
+                else:
+                    x_left, x_right = X[~np.isnan(X).any(axis=1), :], X[np.isnan(X).any(axis=1), :]
+
+            else:
+                # do not use the index column on index 0
+                leafs = node["split"].apply(X[:, 1:])
+
+                x_left, x_right = np.squeeze(X[np.argwhere(leafs == 1), :]), np.squeeze(X[np.argwhere(leafs == 2), :])
+
+            if len(x_left) > 0:
+                next_node = node["children"]["left"]
+
+                if next_node is not None:
+                    y_pred_final = _predict_proba(next_node, x_left, y_pred_final)
+
+            if len(x_right) > 0:
+                next_node = node["children"]["right"]
+
+                if next_node is not None:
+                    y_pred_final = _predict_proba(next_node, x_right, y_pred_final)
+
+            return y_pred_final
+
+        # make an index column
+        index = np.arange(0, X.shape[0]).reshape(-1, 1)
+        X = np.concatenate((index, X), axis=1)
+
+        y_pred = _predict_proba(self.tree, X, None)
+
+        # sort by index column
+        y_pred = y_pred[y_pred[:, 0].argsort()]
+
+        # get the probabilities for each class
+        y_pred = y_pred[:, -self.n_classes_in:]
+
         return y_pred
     
     
