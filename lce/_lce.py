@@ -89,7 +89,7 @@ class LCEClassifier(ClassifierMixin, BaseEstimator):
         for hyperparameter optimization (Hyperopt) is: 
         `range(1, xgb_max_n_estimators + xgb_n_estimators_step, xgb_n_estimators_step)`.
 
-    xgb_max_depth : int, default= 10
+    xgb_max_depth : int, default=10
         Maximum tree depth for XGBoost base learners. The range of XGBoost max_depth 
         for hyperparameter optimization (Hyperopt) is: `range(1, xgb_max_depth + 1)`.
         
@@ -579,7 +579,7 @@ class LCERegressor(RegressorMixin, BaseEstimator):
         for hyperparameter optimization (Hyperopt) is: 
         `range(1, xgb_max_n_estimators + xgb_n_estimators_step, xgb_n_estimators_step)`.
 
-    xgb_max_depth : int, default= 10
+    xgb_max_depth : int, default=10
         Maximum tree depth for XGBoost base learners. The range of XGBoost max_depth 
         for hyperparameter optimization (Hyperopt) is: `range(1, xgb_max_depth + 1)`.
         

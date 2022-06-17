@@ -39,7 +39,7 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
     n_estimators_step : int, default=10
         Spacing between XGBoost n_estimators.
 
-    max_depth : int, default= 10
+    max_depth : int, default=10
         Maximum tree depth for XGBoost base learners.
         
     min_learning_rate : float, default=0.05
@@ -146,13 +146,12 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
     max_depth = range(1, max_depth+1)
     learning_rate = np.arange(min_learning_rate, max_learning_rate+learning_rate_step, 
                               learning_rate_step)
-    gamma = np.arange(min_gamma, max_gamma+gamma_step, 
-                              gamma_step)
-    min_child_weight = range(min_min_child_weight, max_min_child_weight+min_child_weight_step, min_child_weight_step)
+    gamma = np.arange(min_gamma, max_gamma+gamma_step, gamma_step)
+    min_child_weight = range(min_min_child_weight, max_min_child_weight+min_child_weight_step, 
+                             min_child_weight_step)
     reg_alpha = np.arange(min_reg_alpha, max_reg_alpha+reg_alpha_step, 
-                              reg_alpha_step)
-    reg_lambda = np.arange(min_reg_lambda, max_reg_lambda+reg_lambda_step, 
-                              reg_lambda_step)
+                          reg_alpha_step)
+    reg_lambda = np.arange(min_reg_lambda, max_reg_lambda+reg_lambda_step, reg_lambda_step)
     subsample = [subsample]
     colsample_bytree = [colsample_bytree]
     colsample_bylevel = [colsample_bylevel]
@@ -163,14 +162,14 @@ def xgb_opt_classifier(X, y, n_iter=10, metric='accuracy', n_estimators=100,
         'max_depth': hp.choice('max_depth', max_depth),
         'learning_rate': hp.choice('learning_rate', learning_rate),
         'booster': booster,
-        'gamma': hp.choice('gamma',gamma),
+        'gamma': hp.choice('gamma', gamma),
         'min_child_weight': hp.choice('min_child_weight', min_child_weight),
         'subsample': hp.choice('subsample', subsample),
         'colsample_bytree': hp.choice('colsample_bytree', colsample_bytree),
         'colsample_bylevel': hp.choice('colsample_bylevel', colsample_bylevel),
         'colsample_bynode': hp.choice('colsample_bynode', colsample_bynode),
-        'reg_alpha': hp.choice('reg_alpha',reg_alpha),
-        'reg_lambda': hp.choice('reg_lambda',reg_lambda),
+        'reg_alpha': hp.choice('reg_alpha', reg_alpha),
+        'reg_lambda': hp.choice('reg_lambda', reg_lambda),
         'objective': 'multi:softprob',
         'num_class': n_classes,
         'n_jobs': n_jobs,
@@ -266,7 +265,7 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
     n_estimators_step : int, default=10
         Spacing between XGBoost n_estimators.
 
-    max_depth : int, default= 10
+    max_depth : int, default=10
         Maximum tree depth for XGBoost base learners.
         
     min_learning_rate : float, default=0.05
@@ -371,13 +370,13 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
     max_depth = range(1, max_depth+1)
     learning_rate = np.arange(min_learning_rate, max_learning_rate+learning_rate_step, 
                               learning_rate_step)
-    gamma = np.arange(min_gamma, max_gamma+gamma_step, 
-                              gamma_step)
-    min_child_weight = range(min_min_child_weight, max_min_child_weight+min_child_weight_step, min_child_weight_step)
+    gamma = np.arange(min_gamma, max_gamma+gamma_step, gamma_step)
+    min_child_weight = range(min_min_child_weight, max_min_child_weight+min_child_weight_step, 
+                             min_child_weight_step)
     reg_alpha = np.arange(min_reg_alpha, max_reg_alpha+reg_alpha_step, 
-                              reg_alpha_step)
+                          reg_alpha_step)
     reg_lambda = np.arange(min_reg_lambda, max_reg_lambda+reg_lambda_step, 
-                              reg_lambda_step)
+                           reg_lambda_step)
     subsample = [subsample]
     colsample_bytree = [colsample_bytree]
     colsample_bylevel = [colsample_bylevel]
@@ -394,8 +393,8 @@ def xgb_opt_regressor(X, y, n_iter=10, metric='neg_mean_squared_error', n_estima
         'colsample_bytree': hp.choice('colsample_bytree', colsample_bytree),
         'colsample_bylevel': hp.choice('colsample_bylevel', colsample_bylevel),
         'colsample_bynode': hp.choice('colsample_bynode', colsample_bynode),
-        'reg_alpha': hp.choice('reg_alpha',reg_alpha),
-        'reg_lambda': hp.choice('reg_lambda',reg_lambda),
+        'reg_alpha': hp.choice('reg_alpha', reg_alpha),
+        'reg_lambda': hp.choice('reg_lambda', reg_lambda),
         'objective': 'reg:squarederror',
         'n_jobs': n_jobs,
         'random_state': random_state

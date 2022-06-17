@@ -71,7 +71,7 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         for hyperparameter optimization (Hyperopt) is: 
         range(1, xgb_max_n_estimators+xgb_n_estimators_step, xgb_n_estimators_step).
 
-    xgb_max_depth : int, default= 10
+    xgb_max_depth : int, default=10
         Maximum tree depth for XGBoost base learners. The range of XGBoost max_depth 
         for Hyperopt is: range(1, xgb_max_depth+1).
         
@@ -297,9 +297,9 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                     X = np.insert(X, X.shape[1], 0, axis=1)
                     if i in y:
                         if np.unique(y).size == 1:
-                            X[:,-1] = pred_proba[:,1]
+                            X[:, -1] = pred_proba[:, 1]
                         else:
-                            X[:,-1] = pred_proba[:,c]
+                            X[:, -1] = pred_proba[:, c]
                             c += 1
                 
                 # Missing data information
@@ -366,10 +366,10 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
                         nans = np.isnan(X).any(axis=1)
                         X_withoutnans, y_withoutnans = X[~nans], y[~nans]
                         leafs = split.apply(X_withoutnans)
-                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X_withoutnans[np.argwhere(leafs==1),:]), np.squeeze(y_withoutnans[np.argwhere(leafs==1)])), (np.squeeze(X_withoutnans[np.argwhere(leafs==2),:]), np.squeeze(y_withoutnans[np.argwhere(leafs==2)]))                    
+                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X_withoutnans[np.argwhere(leafs==1), :]), np.squeeze(y_withoutnans[np.argwhere(leafs==1)])), (np.squeeze(X_withoutnans[np.argwhere(leafs==2), :]), np.squeeze(y_withoutnans[np.argwhere(leafs==2)]))                    
                     else:
                         leafs = split.apply(X)
-                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X[np.argwhere(leafs==1),:]), np.squeeze(y[np.argwhere(leafs==1)])), (np.squeeze(X[np.argwhere(leafs==2),:]), np.squeeze(y[np.argwhere(leafs==2)]))                                                
+                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X[np.argwhere(leafs==1), :]), np.squeeze(y[np.argwhere(leafs==1)])), (np.squeeze(X[np.argwhere(leafs==2), :]), np.squeeze(y[np.argwhere(leafs==2)]))                                                
                     
                     N_left, N_right = y_left.size, y_right.size
 
@@ -452,54 +452,6 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
         
         self.tree = _build_tree(X, y)
         return self
-
-        
-    def predict(self, X):
-        """
-        Predict class for X.
-
-        Parameters
-        ----------
-        X : array-like of shape (n_samples, n_features)
-            The training input samples.
-
-        Returns
-        -------
-        y : ndarray of shape (n_samples,)
-            The predicted classes.
-        """
-        
-        def _predict(node, x):
-            no_children = node["children"]["left"] is None and \
-                          node["children"]["right"] is None
-            if no_children:
-                y_pred_x = node["model"].predict(x.reshape(-1, 1).T)[0]
-                return node["classes_in"][y_pred_x]
-            else:
-                pred_proba = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
-                c = 0
-                for i in range(0, node["num_classes"]):
-                    x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if i in node["classes_in"]:
-                        if node["classes_in"].size == 1:
-                            x[:,-1] = pred_proba[:,1]
-                        else:
-                            x[:,-1] = pred_proba[:,c]
-                            c += 1
-                if np.isnan(x).sum() > 0:
-                    if node["missing_side"] == 'left':
-                        x_left, x_right = x.reshape(-1, 1).T, []
-                    else:
-                        x_left, x_right = [], x.reshape(-1, 1).T
-                else:   
-                    leafs = node["split"].apply(x.reshape(-1, 1).T)
-                    x_left, x_right = np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==1),:]), np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==2),:])
-                if len(x_left) > 0:
-                    return _predict(node["children"]["left"], x_left)
-                else:
-                    return _predict(node["children"]["right"], x_right)
-        y_pred = np.array([_predict(self.tree, x) for x in X])
-        return y_pred
     
     
     def predict_proba(self, X):
@@ -517,46 +469,59 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
             The class probabilities of the input samples. 
         """
         
-        def _predict_proba(node, x):
+        def _base_proba(node, X):
+            y_pred = np.around(node["model"].predict_proba(X[:, 1:]), 6)
+            d = 0
+            for j in range(0, node["num_classes"]):
+                X = np.insert(X, X.shape[1], 0, axis=1)
+                if j in node["classes_in"]:
+                    if node["classes_in"].size == 1:
+                        X[:, -1] = y_pred[:, 1]
+                    else:
+                        X[:, -1] = y_pred[:, d]
+                        d += 1            
+            return X
+        
+        def _predict_proba(node, X, y_pred_final=None):
+            if X.ndim == 1:
+                X = _base_proba(node, X.reshape(-1, 1).T)
+            else:
+                X = _base_proba(node, X)
+            
             no_children = node["children"]["left"] is None and \
                           node["children"]["right"] is None
             if no_children:
-                y_pred_x = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
-                d = 0
-                for j in range(0, node["num_classes"]):
-                    x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if j in node["classes_in"]: 
-                        if node["classes_in"].size == 1:
-                            x[:,-1] = y_pred_x[:,1]
-                        else:
-                            x[:,-1] = y_pred_x[:,d]
-                            d += 1
-                return x[:, -node["num_classes"]:][0]
-            else:
-                pred_proba = np.around(node["model"].predict_proba(x.reshape(-1, 1).T), 6)
-                c = 0
-                for i in range(0, node["num_classes"]):
-                    x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                    if i in node["classes_in"]:
-                        if node["classes_in"].size == 1:
-                            x[:,-1] = pred_proba[:,1]
-                        else:
-                            x[:,-1] = pred_proba[:,c]
-                            c += 1
-                if np.isnan(x).sum() > 0:
+                y_pred = np.column_stack((X[:, :1], X[:, -node["num_classes"]:]))
+                if y_pred_final is not None:
+                    y_pred_final = np.concatenate((y_pred_final, y_pred), axis=0)
+                else:
+                    y_pred_final = y_pred
+                return y_pred_final
+            
+            else:             
+                if np.isnan(X).sum() > 0:
+                    nans = np.isnan(X).any(axis=1)
+                    leafs = node["split"].apply(X[~nans, 1:])
+                    X_left, X_right = np.squeeze(X[~nans][np.argwhere(leafs==1), :]), np.squeeze(X[~nans][np.argwhere(leafs==2), :])                  
                     if node["missing_side"] == 'left':
-                        x_left, x_right = x.reshape(-1, 1).T, []
+                        X_left, X_right = np.concatenate((X_left, X[nans]), axis=0), X_right
                     else:
-                        x_left, x_right = [], x.reshape(-1, 1).T
+                        X_left, X_right = X_left, np.concatenate((X_right, X[nans]), axis=0)   
                 else:
-                    leafs = node["split"].apply(x.reshape(-1, 1).T)
-                    x_left, x_right = np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==1),:]), np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==2),:])
-                if len(x_left) > 0:
-                    return _predict_proba(node["children"]["left"], x_left)
-                else:
-                    return _predict_proba(node["children"]["right"], x_right)
+                    leafs = node["split"].apply(X[:, 1:])
+                    X_left, X_right = np.squeeze(X[np.argwhere(leafs==1), :]), np.squeeze(X[np.argwhere(leafs==2), :])
 
-        y_pred = np.array([_predict_proba(self.tree, x) for x in X])
+                if len(X_left) > 0:
+                    y_pred_final = _predict_proba(node["children"]["left"], X_left, y_pred_final)
+                if len(X_right) > 0:
+                    y_pred_final = _predict_proba(node["children"]["right"], X_right, y_pred_final)
+                return y_pred_final
+        
+        index = np.arange(0, X.shape[0]).reshape(-1, 1)
+        X = np.concatenate((index, X), axis=1)
+        y_pred = _predict_proba(self.tree, X, None)
+        y_pred = y_pred[y_pred[:, 0].argsort()]
+        y_pred = y_pred[:, 1:]        
         return y_pred
     
     
@@ -868,7 +833,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                                                random_state=self.random_state)
                 preds = np.around(model_node.predict(X), 6)
                 X = np.insert(X, X.shape[1], 0, axis=1)
-                X[:,-1] = preds
+                X[:, -1] = preds
                 
                 # Missing data information
                 num_nans = np.isnan(X).any(axis=1).sum()
@@ -924,7 +889,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                 # Perform split if the conditions are met
                 stopping_criteria = [depth >= 0,
                                      depth < self.max_depth,
-                                     X[:,0].size > 1,
+                                     X[:, 0].size > 1,
                                      missing_only == False]
             
                 if all(stopping_criteria):
@@ -932,10 +897,10 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
                         nans = np.isnan(X).any(axis=1)
                         X_withoutnans, y_withoutnans = X[~nans], y[~nans]
                         leafs = split.apply(X_withoutnans)
-                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X_withoutnans[np.argwhere(leafs==1),:]), np.squeeze(y_withoutnans[np.argwhere(leafs==1)])), (np.squeeze(X_withoutnans[np.argwhere(leafs==2),:]), np.squeeze(y_withoutnans[np.argwhere(leafs==2)]))                    
+                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X_withoutnans[np.argwhere(leafs==1), :]), np.squeeze(y_withoutnans[np.argwhere(leafs==1)])), (np.squeeze(X_withoutnans[np.argwhere(leafs==2), :]), np.squeeze(y_withoutnans[np.argwhere(leafs==2)]))                    
                     else:
                         leafs = split.apply(X)
-                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X[np.argwhere(leafs==1),:]), np.squeeze(y[np.argwhere(leafs==1)])), (np.squeeze(X[np.argwhere(leafs==2),:]), np.squeeze(y[np.argwhere(leafs==2)]))                                                
+                        (X_left, y_left), (X_right, y_right) = (np.squeeze(X[np.argwhere(leafs==1), :]), np.squeeze(y[np.argwhere(leafs==1)])), (np.squeeze(X[np.argwhere(leafs==2), :]), np.squeeze(y[np.argwhere(leafs==2)]))                                                
                     
                     N_left, N_right = y_left.size, y_right.size
 
@@ -1018,8 +983,8 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
         
         self.tree = _build_tree(X, y)
         return self
-
-        
+    
+    
     def predict(self, X):
         """
         Predict regression target for X.
@@ -1035,29 +1000,52 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
             The predicted values.
         """
         
-        def _predict(node, x):
+        def _base(node, X):
+            y_pred = np.around(node["model"].predict(X[:, 1:]), 6)
+            X = np.insert(X, X.shape[1], 0, axis=1)
+            X[:, -1] = y_pred
+            return X
+        
+        def _predict(node, X, y_pred_final=None):
+            if X.ndim == 1:
+                X = _base(node, X.reshape(-1, 1).T)
+            else:
+                X = _base(node, X)
+            
             no_children = node["children"]["left"] is None and \
                           node["children"]["right"] is None
             if no_children:
-                y_pred_x = node["model"].predict(x.reshape(-1, 1).T)[0]
-                return y_pred_x
-            else:
-                preds = np.around(node["model"].predict(x.reshape(-1, 1).T), 6)
-                x = np.insert(x.reshape(-1, 1).T, x.reshape(-1, 1).T.shape[1], 0, axis=1)
-                x[:,-1] = preds
-                if np.isnan(x).sum() > 0:
+                y_pred = np.column_stack((X[:, :1], X[:, -1:]))
+                if y_pred_final is not None:
+                    y_pred_final = np.concatenate((y_pred_final, y_pred), axis=0)
+                else:
+                    y_pred_final = y_pred
+                return y_pred_final
+            
+            else:              
+                if np.isnan(X).sum() > 0:
+                    nans = np.isnan(X).any(axis=1)
+                    leafs = node["split"].apply(X[~nans, 1:])
+                    X_left, X_right = np.squeeze(X[~nans][np.argwhere(leafs==1), :]), np.squeeze(X[~nans][np.argwhere(leafs==2), :])                  
                     if node["missing_side"] == 'left':
-                        x_left, x_right = x.reshape(-1, 1).T, []
+                        X_left, X_right = np.concatenate((X_left, X[nans]), axis=0), X_right
                     else:
-                        x_left, x_right = [], x.reshape(-1, 1).T
+                        X_left, X_right = X_left, np.concatenate((X_right, X[nans]), axis=0)   
                 else:
-                    leafs = node["split"].apply(x.reshape(-1, 1).T)
-                    x_left, x_right = np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==1),:]), np.squeeze(x.reshape(-1, 1).T[np.argwhere(leafs==2),:])
-                if len(x_left) > 0:
-                    return _predict(node["children"]["left"], x_left)
-                else:
-                    return _predict(node["children"]["right"], x_right)
-        y_pred = np.array([_predict(self.tree, x) for x in X])
+                    leafs = node["split"].apply(X[:, 1:])
+                    X_left, X_right = np.squeeze(X[np.argwhere(leafs==1), :]), np.squeeze(X[np.argwhere(leafs==2), :])
+
+                if len(X_left) > 0:
+                    y_pred_final = _predict(node["children"]["left"], X_left, y_pred_final)
+                if len(X_right) > 0:
+                    y_pred_final = _predict(node["children"]["right"], X_right, y_pred_final)
+                return y_pred_final
+            
+        index = np.arange(0, X.shape[0]).reshape(-1, 1)
+        X = np.concatenate((index, X), axis=1)
+        y_pred = _predict(self.tree, X, None)
+        y_pred = y_pred[y_pred[:, 0].argsort()]
+        y_pred = y_pred[:, 1:]        
         return y_pred
     
     
