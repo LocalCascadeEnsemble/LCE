@@ -1045,7 +1045,7 @@ class LCETreeRegressor(RegressorMixin, BaseEstimator):
         X = np.concatenate((index, X), axis=1)
         y_pred = _predict(self.tree, X, None)
         y_pred = y_pred[y_pred[:, 0].argsort()]
-        y_pred = y_pred[:, 1:]        
+        y_pred = np.squeeze(y_pred[:, 1:])      
         return y_pred
     
     
