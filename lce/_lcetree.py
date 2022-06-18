@@ -262,6 +262,13 @@ class LCETreeClassifier(ClassifierMixin, BaseEstimator):
 
             def _create_node(X, y, depth, container):
                 """Create a node in the tree."""
+                
+                # check if we need to add a pseudo sample if a class is not represented in y
+                if self.n_classes_in != np.unique(y).size:
+                    for i in range(self.n_classes_in):
+                        X = np.vstack([X, np.zeros(shape=X.shape[1])])
+                        y = np.hstack([y, np.array(i)])
+                
                 # Add XGBoost predictions as features to the dataset
                 model_node = xgb_opt_classifier(X, y, n_iter=self.n_iter,
                                                 metric = self.metric,
