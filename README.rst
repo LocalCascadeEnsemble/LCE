@@ -1,30 +1,19 @@
 
-|CircleCI|_ |ReadTheDocs|_ |PyPIversion|_ |PyPIpythonversion|_ |License|_ |DOI|_
-
-.. |CircleCI| image:: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield
-.. _CircleCI: https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main
-   
-.. |ReadTheDocs| image:: https://readthedocs.org/projects/lce/badge/?version=latest
-.. _ReadTheDocs: https://lce.readthedocs.io/en/latest/?badge=latest
-
-.. |PyPIversion| image:: https://badge.fury.io/py/lcensemble.svg
-.. _PyPIversion: https://pypi.python.org/pypi/lcensemble/
-
-.. |PyPIpythonversion| image:: https://img.shields.io/pypi/pyversions/lcensemble.svg
-.. _PyPIpythonversion: https://pypi.python.org/pypi/lcensemble/
-
-.. |License| image:: https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg
-.. _License: https://pypi.python.org/pypi/lcensemble/
-
-.. |DOI| image:: https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg
-.. _DOI: https://doi.org/10.1007/s10618-022-00823-6
-
-
 .. raw:: html
 
-	<p align="center">
-	<img src="./logo/logo_lce.svg" width="35%">	
-	</p>
+	<div align="center">
+	
+		<img src="./logo/logo_lce.svg" width="35%">	
+		
+		[![CircleCI](https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield)](https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main)
+		[![ReadTheDocs](https://readthedocs.org/projects/lce/badge/?version=latest)](https://lce.readthedocs.io/en/latest/?badge=latest)
+		[![PyPIversion](https://badge.fury.io/py/lcensemble.svg)](https://pypi.python.org/pypi/lcensemble/)
+		[![PyPIpythonversion](https://img.shields.io/pypi/pyversions/lcensemble.svg)](https://pypi.python.org/pypi/lcensemble/)
+		[![CodeStyle](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+		[![DOI](https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg)](https://doi.org/10.1007/s10618-022-00823-6)
+		[![License](https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg)](https://pypi.python.org/pypi/lcensemble/)
+	
+	</div>
    
 
 **Local Cascade Ensemble (LCE)** is a machine learning method that **further enhances** the prediction performance of the state-of-the-art **Random Forest** and **XGBoost**. LCE combines their strengths and adopts a complementary diversification approach to obtain a better generalizing predictor. Specifically, LCE is a hybrid ensemble method that combines an explicit boosting-bagging approach to handle the bias-variance trade-off faced by machine learning models and an implicit divide-and-conquer approach to individualize classifier errors on different parts of the training data. LCE has been evaluated on a public benchmark and published in the journal *Data Mining and Knowledge Discovery*.
