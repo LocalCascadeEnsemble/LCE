@@ -1,18 +1,18 @@
 
 .. raw:: html
 
-	<div align="center">
-	
+	<p align="center">
 		<img src="./logo/logo_lce.svg" width="35%">	
-		
-		[![CircleCI](https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield)](https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main)
-		[![ReadTheDocs](https://readthedocs.org/projects/lce/badge/?version=latest)](https://lce.readthedocs.io/en/latest/?badge=latest)
-		[![PyPIversion](https://badge.fury.io/py/lcensemble.svg)](https://pypi.python.org/pypi/lcensemble/)
-		[![PyPIpythonversion](https://img.shields.io/pypi/pyversions/lcensemble.svg)](https://pypi.python.org/pypi/lcensemble/)
-		[![CodeStyle](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-		[![DOI](https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg)](https://doi.org/10.1007/s10618-022-00823-6)
-		[![License](https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg)](https://pypi.python.org/pypi/lcensemble/)
+	</p>
 	
+	<div align="center">
+		<img src="https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield">
+		<img src="https://readthedocs.org/projects/lce/badge/?version=latest"
+		<img src="https://badge.fury.io/py/lcensemble.svg">
+		<img src="https://img.shields.io/pypi/pyversions/lcensemble.svg">
+		<img src="https://img.shields.io/badge/code%20style-black-000000.svg">
+		<img src="https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg">
+		<img src="https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg">
 	</div>
    
 
