@@ -7,7 +7,7 @@
 	
 	<div align="center">
 		<img src="https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield">
-		<img src="https://readthedocs.org/projects/lce/badge/?version=latest"
+		<img src="https://readthedocs.org/projects/lce/badge/?version=latest">
 		<img src="https://badge.fury.io/py/lcensemble.svg">
 		<img src="https://img.shields.io/pypi/pyversions/lcensemble.svg">
 		<img src="https://img.shields.io/badge/code%20style-black-000000.svg">
