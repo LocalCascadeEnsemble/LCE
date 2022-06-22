@@ -6,13 +6,27 @@
 	</p>
 	
 	<div align="center">
-		<img src="https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield">
-		<img src="https://readthedocs.org/projects/lce/badge/?version=latest">
-		<img src="https://badge.fury.io/py/lcensemble.svg">
-		<img src="https://img.shields.io/pypi/pyversions/lcensemble.svg">
-		<img src="https://img.shields.io/badge/code%20style-black-000000.svg">
-		<img src="https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg">
-		<img src="https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg">
+		<a href="https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main">
+			<img src="https://circleci.com/gh/LocalCascadeEnsemble/LCE/tree/main.svg?style=shield">
+		</a>
+		<a href="https://lce.readthedocs.io/en/latest/?badge=latest">
+			<img src="https://readthedocs.org/projects/lce/badge/?version=latest">
+		</a>
+		<a href="https://pypi.python.org/pypi/lcensemble/">		
+			<img src="https://badge.fury.io/py/lcensemble.svg">
+		</a>		
+		<a href="https://pypi.python.org/pypi/lcensemble/">		
+			<img src="https://img.shields.io/pypi/pyversions/lcensemble.svg">
+		</a>
+		<a href="https://github.com/psf/black">	
+			<img src="https://img.shields.io/badge/code%20style-black-000000.svg">
+		</a>
+		<a href="https://doi.org/10.1007/s10618-022-00823-6">		
+			<img src="https://zenodo.org/badge/DOI/10.1007/s10618-022-00823-6.svg">
+		</a>
+		<a href="https://pypi.python.org/pypi/lcensemble/">		
+			<img src="https://img.shields.io/github/license/LocalCascadeEnsemble/LCE.svg">
+		</a>
 	</div>
    
 
