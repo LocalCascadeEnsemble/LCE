@@ -53,7 +53,7 @@ Or ``conda``::
 First Example on Iris Dataset
 -----------------------------
 
-LCEClassifier prediction on an Iris test set::
+LCEClassifier prediction on an Iris test set:
 
 .. code-block:: python
 
