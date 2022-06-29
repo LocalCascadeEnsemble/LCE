@@ -55,6 +55,8 @@ First Example on Iris Dataset
 
 LCEClassifier prediction on an Iris test set::
 
+.. code-block:: python
+
 	from lce import LCEClassifier
 	from sklearn.datasets import load_iris
 	from sklearn.metrics import classification_report
