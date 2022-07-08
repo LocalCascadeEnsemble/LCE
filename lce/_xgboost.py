@@ -225,7 +225,7 @@ def xgb_opt_classifier(
         return {"loss": -best, "status": STATUS_OK}
 
     rstate = np.random.default_rng(random_state)
-    best = fmin(
+    best_config = fmin(
         fn=f,
         space=space,
         algo=tpe.suggest,
@@ -237,18 +237,18 @@ def xgb_opt_classifier(
 
     # Fit best model
     final_params = {
-        "n_estimators": n_estimators[best["n_estimators"]],
-        "max_depth": max_depth[best["max_depth"]],
-        "learning_rate": learning_rate[best["learning_rate"]],
+        "n_estimators": n_estimators[best_config["n_estimators"]],
+        "max_depth": max_depth[best_config["max_depth"]],
+        "learning_rate": learning_rate[best_config["learning_rate"]],
         "booster": booster,
-        "gamma": gamma[best["gamma"]],
-        "min_child_weight": min_child_weight[best["min_child_weight"]],
-        "subsample": subsample[best["subsample"]],
-        "colsample_bytree": colsample_bytree[best["colsample_bytree"]],
-        "colsample_bylevel": colsample_bylevel[best["colsample_bylevel"]],
-        "colsample_bynode": colsample_bynode[best["colsample_bynode"]],
-        "reg_alpha": reg_alpha[best["reg_alpha"]],
-        "reg_lambda": reg_lambda[best["reg_lambda"]],
+        "gamma": gamma[best_config["gamma"]],
+        "min_child_weight": min_child_weight[best_config["min_child_weight"]],
+        "subsample": subsample[best_config["subsample"]],
+        "colsample_bytree": colsample_bytree[best_config["colsample_bytree"]],
+        "colsample_bylevel": colsample_bylevel[best_config["colsample_bylevel"]],
+        "colsample_bynode": colsample_bynode[best_config["colsample_bynode"]],
+        "reg_alpha": reg_alpha[best_config["reg_alpha"]],
+        "reg_lambda": reg_lambda[best_config["reg_lambda"]],
         "objective": "multi:softprob",
         "num_class": n_classes,
         "n_jobs": n_jobs,
@@ -476,7 +476,7 @@ def xgb_opt_regressor(
         return {"loss": best, "status": STATUS_OK}
 
     rstate = np.random.default_rng(random_state)
-    best = fmin(
+    best_config = fmin(
         fn=f,
         space=space,
         algo=tpe.suggest,
@@ -488,18 +488,18 @@ def xgb_opt_regressor(
 
     # Fit best model
     final_params = {
-        "n_estimators": n_estimators[best["n_estimators"]],
-        "max_depth": max_depth[best["max_depth"]],
-        "learning_rate": learning_rate[best["learning_rate"]],
+        "n_estimators": n_estimators[best_config["n_estimators"]],
+        "max_depth": max_depth[best_config["max_depth"]],
+        "learning_rate": learning_rate[best_config["learning_rate"]],
         "booster": booster,
-        "gamma": gamma[best["gamma"]],
-        "min_child_weight": min_child_weight[best["min_child_weight"]],
-        "subsample": subsample[best["subsample"]],
-        "colsample_bytree": colsample_bytree[best["colsample_bytree"]],
-        "colsample_bylevel": colsample_bylevel[best["colsample_bylevel"]],
-        "colsample_bynode": colsample_bynode[best["colsample_bynode"]],
-        "reg_alpha": reg_alpha[best["reg_alpha"]],
-        "reg_lambda": reg_lambda[best["reg_lambda"]],
+        "gamma": gamma[best_config["gamma"]],
+        "min_child_weight": min_child_weight[best_config["min_child_weight"]],
+        "subsample": subsample[best_config["subsample"]],
+        "colsample_bytree": colsample_bytree[best_config["colsample_bytree"]],
+        "colsample_bylevel": colsample_bylevel[best_config["colsample_bylevel"]],
+        "colsample_bynode": colsample_bynode[best_config["colsample_bynode"]],
+        "reg_alpha": reg_alpha[best_config["reg_alpha"]],
+        "reg_lambda": reg_lambda[best_config["reg_lambda"]],
         "objective": "reg:squarederror",
         "n_jobs": n_jobs,
         "random_state": random_state,
